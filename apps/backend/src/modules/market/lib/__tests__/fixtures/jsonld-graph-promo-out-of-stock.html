@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Test fixture written by hand: Product inside an @graph, sale price plus a
+     strikethrough list price, and sold out. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <script type='application/ld+json'>
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"WebSite","name":"Tienda de prueba","url":"https://tienda-prueba.example/"},
+    {"@type":"WebPage","name":"Brisa de Azahar"},
+    {"@type":["Product","IndividualProduct"],
+     "name":"Brisa de Azahar Eau de Toilette 50 ml",
+     "gtin":"2000000000022",
+     "offers":[{
+       "@type":"Offer",
+       "availability":"http://schema.org/OutOfStock",
+       "priceCurrency":"EUR",
+       "priceSpecification":[
+         {"@type":"UnitPriceSpecification","price":39.95,"priceCurrency":"EUR"},
+         {"@type":"UnitPriceSpecification","priceType":"https://schema.org/StrikethroughPrice","price":59.00,"priceCurrency":"EUR"}
+       ]
+     }]
+    }
+  ]}
+  </script>
+</head>
+<body><p>Agotado</p></body>
+</html>

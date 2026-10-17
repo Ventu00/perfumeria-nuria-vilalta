@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Test fixture written by hand: one page with two sizes (ProductGroup with
+     hasVariant), each with its own EAN and price. Also has a trailing comma,
+     which some shops leave in their JSON-LD. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProductGroup",
+    "name": "Jardín de Rubí",
+    "productGroupID": "JR",
+    "hasVariant": [
+      {
+        "@type": "Product",
+        "name": "Jardín de Rubí EDP 50 ml",
+        "gtin13": "2000000000039",
+        "offers": {"@type": "Offer", "price": "41,50", "priceCurrency": "EUR", "availability": "InStock"}
+      },
+      {
+        "@type": "Product",
+        "name": "Jardín de Rubí EDP 100 ml",
+        "gtin13": "2000000000046",
+        "offers": {"@type": "Offer", "price": "62.00", "priceCurrency": "EUR", "availability": "https://schema.org/LimitedAvailability"},
+      }
+    ]
+  }
+  </script>
+</head>
+<body></body>
+</html>

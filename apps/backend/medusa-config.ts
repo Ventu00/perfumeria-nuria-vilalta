@@ -133,5 +133,16 @@ module.exports = defineConfig({
     },
     ...fileModule,
     ...redisModules,
+    {
+      // Market analysis: competitor prices and stock, supplier tariffs and
+      // the buy / price suggestions shown in "Análisis de mercado".
+      resolve: "./src/modules/market",
+      options: {
+        readerContact: process.env.MARKET_READER_CONTACT,
+        readerDelayMs: process.env.MARKET_READER_DELAY_MS
+          ? Number(process.env.MARKET_READER_DELAY_MS)
+          : undefined,
+      },
+    },
   ],
 })

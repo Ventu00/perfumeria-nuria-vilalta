@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- Test fixture written by hand: a typical perfume product page with one
+     schema.org Product and a single Offer. Not copied from any shop. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Ámbar Nocturno Eau de Parfum 100 ml | Tienda de prueba</title>
+  <meta property="og:title" content="Ámbar Nocturno EDP 100 ml">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Perfumes"}]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "Ámbar Nocturno Eau de Parfum 100 ml",
+    "brand": {"@type": "Brand", "name": "Casa Demo"},
+    "gtin13": "2000000000015",
+    "sku": "AN-100",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://tienda-prueba.example/ambar-nocturno-100",
+      "priceCurrency": "EUR",
+      "price": "54.95",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  }
+  </script>
+</head>
+<body><h1>Ámbar Nocturno</h1><span class="price">54,95 €</span></body>
+</html>
