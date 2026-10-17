@@ -39,7 +39,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.s3.amazonaws.com",
       },
-      // Cloudflare R2 public bucket used for product photos in production.
+      // Photos served by the backend on the free Oracle server (sslip.io name).
+      {
+        protocol: "https",
+        hostname: "*.sslip.io",
+      },
+      // Cloudflare R2 public bucket, if photos are moved there later.
       {
         protocol: "https",
         hostname: "*.r2.dev",

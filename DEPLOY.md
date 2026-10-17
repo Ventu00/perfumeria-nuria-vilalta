@@ -1,96 +1,72 @@
-# Publicar la tienda en modo prueba
+# Publicar la tienda gratis en modo prueba
 
-Esta guía deja la tienda en internet para probarla desde el móvil. Usa tres servicios con plan gratuito o de prueba:
+Esta guía pone la tienda en internet sin coste para probarla desde el móvil. Se usan dos servicios gratuitos:
 
-| Servicio | Para qué | Coste aproximado |
+| Servicio | Para qué | Coste |
 | --- | --- | --- |
-| [Railway](https://railway.com) | Servidor, panel de la tienda, base de datos y Redis | 5 $/mes (plan Hobby; trae crédito de prueba) |
-| [Cloudflare R2](https://dash.cloudflare.com) | Fotos de los productos | Gratis hasta 10 GB |
-| [Vercel](https://vercel.com) | La web de la tienda que ven los clientes | Gratis (plan Hobby) |
+| [Oracle Cloud, Always Free](https://www.oracle.com/es/cloud/free/) | Servidor, panel de la tienda, base de datos y fotos | 0 € (pide tarjeta solo para verificar tu identidad) |
+| [Vercel](https://vercel.com), plan Hobby | La web que ven los clientes | 0 € |
 
-Los pagos siguen desactivados hasta tener cuenta de Stripe (ver el final).
+El servidor gratuito de Oracle tiene 4 procesadores y 24 GB de memoria, de sobra para la tienda, y no se apaga solo. Las fotos de los productos se guardan en ese mismo servidor.
 
-Hazlo en este orden: primero R2, luego Railway y por último Vercel, porque cada paso necesita datos del anterior.
-
----
-
-## 1. Cloudflare R2 (fotos)
-
-1. Crea una cuenta en Cloudflare y entra en **R2 Object Storage**. Te pedirá una tarjeta aunque el uso sea gratis.
-2. **Create bucket** con el nombre `nuria-vilalta-fotos`, ubicación automática.
-3. Dentro del bucket: **Settings > Public access > R2.dev subdomain > Allow access**. Copia la URL pública, del tipo `https://pub-xxxxxxxx.r2.dev`.
-4. Vuelve a R2 y abre **Manage R2 API Tokens > Create API token**:
-   - Permisos: **Object Read & Write**.
-   - Limitar al bucket `nuria-vilalta-fotos`.
-5. Apunta estos cuatro datos (solo se muestran una vez):
-   - Access Key ID
-   - Secret Access Key
-   - Endpoint, del tipo `https://<id-de-cuenta>.r2.cloudflarestorage.com`
-   - La URL pública del paso 3
-
-Más adelante, cuando se use el dominio propio, la URL `r2.dev` se puede cambiar por `fotos.perfumerianuriavilalta.com`.
+Los pagos siguen desactivados hasta tener cuenta de Stripe (ver el final). Stripe no cobra cuota: solo una comisión por venta.
 
 ---
 
-## 2. Railway (servidor y panel)
+## 1. Elegir la dirección de la tienda
 
-1. Crea una cuenta en Railway entrando con GitHub (usuario `Ventu00`).
-2. **New Project > Deploy PostgreSQL**. Después, dentro del mismo proyecto, **+ Create > Database > Redis**.
-3. **+ Create > GitHub Repo > `Ventu00/perfumeria-nuria-vilalta`**. Este será el servicio **servidor**:
-   - En **Settings > Config-as-code** pon la ruta `deploy/railway-server.json`.
-   - En **Settings > Networking > Generate Domain** crea su dirección pública, por ejemplo `https://perfumeria-server.up.railway.app`. Esta es la `URL_SERVIDOR` de abajo.
-4. Repite **+ Create > GitHub Repo** con el mismo repositorio para el servicio **worker** (tareas en segundo plano):
-   - Config-as-code: `deploy/railway-worker.json`.
-   - No le generes dominio.
+La tienda tendrá una dirección del tipo `https://perfumeria-nuria-vilalta.vercel.app`. La parte del medio es el nombre del proyecto que pondrás en Vercel en el paso 3. Decide ese nombre ahora, porque el servidor lo necesita antes. En esta guía lo llamamos `URL_TIENDA`.
 
-### Variables del servidor
+---
 
-En el servicio servidor, pestaña **Variables > Raw Editor**, pega esto y rellena lo que va entre `< >`:
+## 2. Oracle Cloud (servidor)
 
-```env
-NODE_ENV=production
-DATABASE_URL=${{Postgres.DATABASE_URL}}
-REDIS_URL=${{Redis.REDIS_URL}}
-MEDUSA_WORKER_MODE=server
-MEDUSA_BACKEND_URL=<URL_SERVIDOR>
-MEDUSA_FF_TRANSLATION=true
+### Crear la cuenta
 
-JWT_SECRET=<texto aleatorio largo>
-COOKIE_SECRET=<otro texto aleatorio largo>
+1. Entra en [oracle.com/es/cloud/free](https://www.oracle.com/es/cloud/free/) y pulsa **Empieza gratis**.
+2. Como región de inicio elige **Spain Central (Madrid)**. No se puede cambiar después.
+3. Pide una tarjeta para verificar. No cobra nada mientras uses solo recursos marcados como **Always Free**.
 
-STORE_CORS=<URL_TIENDA>
-ADMIN_CORS=<URL_SERVIDOR>
-AUTH_CORS=<URL_SERVIDOR>,<URL_TIENDA>
+### Crear la máquina
 
-S3_BUCKET=nuria-vilalta-fotos
-S3_ENDPOINT=<Endpoint de R2>
-S3_REGION=auto
-S3_ACCESS_KEY_ID=<Access Key ID de R2>
-S3_SECRET_ACCESS_KEY=<Secret Access Key de R2>
-S3_FILE_URL=<URL pública r2.dev>
+1. En el menú: **Compute > Instances > Create instance**.
+2. **Image**: Canonical Ubuntu 24.04.
+3. **Shape**: pulsa **Change shape > Ampere > VM.Standard.A1.Flex** y pon 4 OCPU y 24 GB de memoria. Debe aparecer la etiqueta *Always Free-eligible*.
+4. **Add SSH keys**: elige **Generate a key pair for me** y pulsa **Save private key**. Guarda ese archivo, es la llave para entrar.
+5. Pulsa **Create**. Cuando salga en verde, copia su **Public IP address**.
 
-ADMIN_EMAIL=<tu correo>
-ADMIN_PASSWORD=<una contraseña segura>
+Si sale el aviso *Out of capacity*, vuelve a intentarlo más tarde o elige otro *Availability domain*. Pasa a veces con las máquinas gratuitas.
+
+### Abrir la máquina a internet
+
+1. En la página de la máquina, pulsa el enlace de la **Subnet** y después la **Default Security List**.
+2. **Add Ingress Rules** con origen `0.0.0.0/0`, protocolo TCP y puertos de destino `80,443`.
+
+### Instalar la tienda
+
+Desde el terminal de tu ordenador (cambia la ruta de la llave y la IP):
+
+```bash
+chmod 600 ~/Descargas/ssh-key-*.key
+ssh -i ~/Descargas/ssh-key-*.key ubuntu@<IP_PUBLICA>
 ```
 
-- Para los secretos puedes usar el botón **Generate** de Railway, o el comando `openssl rand -hex 32`.
-- `URL_TIENDA` aún no existe. Pon de momento `https://localhost` y cámbiala en el paso 4.
-- `ADMIN_EMAIL` y `ADMIN_PASSWORD` crean tu usuario del panel en el primer arranque. Cuando hayas entrado, borra `ADMIN_PASSWORD`.
+Ya dentro de la máquina, ejecuta:
 
-### Variables del worker
-
-Las mismas que el servidor, cambiando dos líneas y sin `ADMIN_EMAIL` ni `ADMIN_PASSWORD`:
-
-```env
-MEDUSA_WORKER_MODE=worker
-DISABLE_MEDUSA_ADMIN=true
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ventu00/perfumeria-nuria-vilalta/main/deploy/oracle/install.sh | bash
 ```
 
-### Primer arranque
+El script te hará tres preguntas: la `URL_TIENDA`, tu correo y una contraseña para el panel. Después instala todo solo. La primera vez tarda entre 5 y 10 minutos. Al terminar muestra dos direcciones:
 
-Pulsa **Deploy** en los dos servicios. El primer arranque del servidor tarda unos minutos porque crea la base de datos, las categorías en tres idiomas y tu usuario. Cuando el servicio salga en verde:
+- **Panel de la tienda**: `https://<ip-con-guiones>.sslip.io/app`
+- **Dirección del servidor**: `https://<ip-con-guiones>.sslip.io`. En esta guía es la `URL_SERVIDOR`.
 
-1. Abre `<URL_SERVIDOR>/app` y entra con tu correo y contraseña.
+La dirección `sslip.io` es gratuita y lleva su candado HTTPS. Cuando paséis al dominio propio se cambiará por algo como `panel.perfumerianuriavilalta.com`.
+
+### Primer acceso al panel
+
+1. Abre el panel y entra con tu correo y contraseña.
 2. Ve a **Settings > Publishable API Keys** y copia la clave que empieza por `pk_`. La necesitas para Vercel.
 3. Para dar acceso a tus padres: **Settings > Users > Invite**. Cada uno tendrá su propio usuario. El apartado que usarán es **Mis productos (fácil)**, en el menú de la izquierda.
 
@@ -100,8 +76,9 @@ Pulsa **Deploy** en los dos servicios. El primer arranque del servidor tarda uno
 
 1. Crea una cuenta en Vercel entrando con GitHub.
 2. **Add New > Project > Import `Ventu00/perfumeria-nuria-vilalta`**.
-3. **Root Directory**: `apps/storefront`. Vercel detecta Next.js solo.
-4. En **Environment Variables** añade:
+3. **Project Name**: el nombre que elegiste en el paso 1.
+4. **Root Directory**: `apps/storefront`. Vercel detecta Next.js solo.
+5. En **Environment Variables** añade:
 
 ```env
 NEXT_PUBLIC_MEDUSA_BACKEND_URL=<URL_SERVIDOR>
@@ -110,26 +87,33 @@ NEXT_PUBLIC_BASE_URL=<URL_TIENDA>
 NEXT_PUBLIC_DEFAULT_REGION=es
 ```
 
-`URL_TIENDA` es la dirección que Vercel muestra tras el primer despliegue, por ejemplo `https://perfumeria-nuria-vilalta.vercel.app`. Si aún no la sabes, despliega una vez, cópiala, ponla en `NEXT_PUBLIC_BASE_URL` y pulsa **Redeploy**.
+6. Pulsa **Deploy**.
+
+Si Vercel te da una dirección distinta de la que pusiste en el servidor, cámbiala allí. En la máquina de Oracle, ejecuta `nano ~/perfumeria/deploy/oracle/.env`, corrige la dirección en `STORE_CORS` y `AUTH_CORS`, guarda y ejecuta:
+
+```bash
+cd ~/perfumeria/deploy/oracle && sudo docker compose up -d
+```
 
 ---
 
-## 4. Conectar tienda y servidor
-
-En Railway, en las variables del servidor **y** del worker, cambia `https://localhost` por la `URL_TIENDA` real en `STORE_CORS` y `AUTH_CORS`. Railway vuelve a desplegar solo.
-
----
-
-## 5. Comprobar que todo funciona
+## 4. Comprobar que todo funciona
 
 Desde el móvil:
 
-1. Abre `<URL_SERVIDOR>/app`, entra en **Mis productos (fácil)** y crea un producto con foto, precio y descripción.
-2. Abre `<URL_TIENDA>`. El producto debería aparecer en menos de un minuto.
+1. Abre el panel, entra en **Mis productos (fácil)** y crea un producto con foto, precio y descripción.
+2. Abre la tienda. El producto debería aparecer en menos de un minuto.
 3. Prueba los botones **ES · CA · EN** del menú.
 4. Añade el producto a la cesta y marca **Envolver para regalo**.
 
-El pago todavía no se puede completar: falta Stripe.
+El pago todavía no se puede completar porque falta Stripe.
+
+---
+
+## 5. Actualizar la tienda tras cambios en GitHub
+
+- **La web de la tienda**: Vercel la actualiza sola con cada cambio.
+- **El servidor y el panel**: entra en la máquina por SSH y vuelve a ejecutar el mismo comando de instalación. Detecta que ya está instalado y solo descarga lo nuevo. Tus productos, fotos y contraseñas se conservan.
 
 ---
 
@@ -137,18 +121,36 @@ El pago todavía no se puede completar: falta Stripe.
 
 Cuando tengáis cuenta de Stripe a nombre del negocio:
 
-1. En Stripe, copia la clave secreta (`sk_test_...` para pruebas, `sk_live_...` para cobrar de verdad).
+1. En Stripe, copia la clave secreta: `sk_test_...` para pruebas o `sk_live_...` para cobrar de verdad.
 2. Crea un webhook a `<URL_SERVIDOR>/hooks/payment/stripe_stripe` y copia su secreto `whsec_...`.
-3. Añade `STRIPE_API_KEY` y `STRIPE_WEBHOOK_SECRET` al servidor y al worker en Railway.
-4. En la consola del servidor de Railway ejecuta una vez:
-   `cd apps/backend/.medusa/server && npx medusa exec ./src/scripts/enable-stripe.js`
+3. En la máquina de Oracle, añade al final de `~/perfumeria/deploy/oracle/.env` estas dos líneas:
+
+   ```env
+   STRIPE_API_KEY=sk_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   ```
+
+4. Ejecuta:
+
+   ```bash
+   cd ~/perfumeria/deploy/oracle && sudo docker compose up -d
+   sudo docker compose exec medusa npx medusa exec ./src/scripts/enable-stripe.js
+   ```
+
 5. En Vercel añade `NEXT_PUBLIC_STRIPE_KEY=<pk_test_... o pk_live_...>` y vuelve a desplegar.
-6. En Stripe, **Settings > Payment methods**, activa tarjeta, Bizum, Apple Pay, Google Pay y Amazon Pay. Para Apple Pay hay que verificar el dominio de la tienda en esa misma pantalla.
+6. En Stripe, en **Settings > Payment methods**, activa tarjeta, Bizum, Apple Pay, Google Pay y Amazon Pay. Para Apple Pay hay que verificar el dominio de la tienda en esa misma pantalla.
 
 ---
 
 ## Si algo falla
 
-- **El servidor no arranca**: abre los registros (**Deployments > View logs**) del servicio. Casi siempre es una variable mal copiada.
-- **La tienda dice que no encuentra la región**: revisa que `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` sea la clave `pk_` correcta y que `STORE_CORS` lleve la URL de la tienda sin barra final.
-- **Las fotos no se ven**: revisa que el acceso público del bucket R2 esté activado y que `S3_FILE_URL` sea la URL `r2.dev`.
+- **Ver qué pasa en el servidor**: `cd ~/perfumeria/deploy/oracle && sudo docker compose logs -f medusa`.
+- **El panel no abre o no tiene candado**: revisa que los puertos 80 y 443 estén abiertos en la *Security List* (paso 2).
+- **La tienda dice que no encuentra la región**: revisa que `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` sea la clave `pk_` correcta y que `STORE_CORS` lleve la dirección de la tienda sin barra final.
+- **Oracle avisa de que la máquina está inactiva**: en cuentas gratuitas, Oracle puede recuperar máquinas que casi no se usan durante una semana. Si os pasa, pasad la cuenta a *Pay As You Go* en **Billing > Upgrade**. Seguís sin pagar nada mientras uséis solo recursos *Always Free*, y la máquina ya no se recupera.
+
+---
+
+## Otras opciones de alojamiento
+
+La carpeta `deploy/` también tiene la configuración para Railway, de pago (unos 5 $ al mes). Sirve si más adelante preferís no mantener vosotros el servidor.

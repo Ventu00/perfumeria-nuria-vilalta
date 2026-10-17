@@ -22,8 +22,28 @@ const stripeProvider = process.env.STRIPE_API_KEY
     ]
   : []
 
-// Product photos go to an S3-compatible bucket (Cloudflare R2 in production)
-// so they survive redeploys. Without S3 settings they stay on the local disk.
+// Product photos go to an S3-compatible bucket (Cloudflare R2) when one is
+// configured. Otherwise they stay on the server's disk under /static, served
+// from MEDUSA_BACKEND_URL; the Docker setup keeps that folder in a volume.
+const localFileModule = process.env.MEDUSA_BACKEND_URL
+  ? [
+      {
+        resolve: "@medusajs/medusa/file",
+        options: {
+          providers: [
+            {
+              resolve: "@medusajs/medusa/file-local",
+              id: "local",
+              options: {
+                backend_url: `${process.env.MEDUSA_BACKEND_URL}/static`,
+              },
+            },
+          ],
+        },
+      },
+    ]
+  : []
+
 const fileModule = process.env.S3_BUCKET
   ? [
       {
@@ -47,7 +67,7 @@ const fileModule = process.env.S3_BUCKET
         },
       },
     ]
-  : []
+  : localFileModule
 
 // With Redis available (production), events, workflows, locks and caching are
 // shared between the server and the worker instead of living in memory.

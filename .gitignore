@@ -55,3 +55,5 @@ yarn-error.log*
 ehthumbs.db
 Thumbs.db
 **/.DS_Store
+# Server secrets created by deploy/oracle/install.sh
+deploy/oracle/.env
