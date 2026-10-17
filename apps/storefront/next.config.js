@@ -39,6 +39,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.s3.amazonaws.com",
       },
+      // Cloudflare R2 public bucket used for product photos in production.
+      {
+        protocol: "https",
+        hostname: "*.r2.dev",
+      },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
             {

@@ -2,6 +2,8 @@ import { loadEnv, defineConfig } from '@medusajs/framework/utils'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
+const REDIS_URL = process.env.REDIS_URL
+
 // Stripe covers cards, Bizum, Apple Pay, Google Pay and Amazon Pay through one
 // Payment Element. Which methods show is decided in the Stripe Dashboard
 // (Settings > Payment methods), so no code change is needed to add or remove one.
@@ -20,6 +22,61 @@ const stripeProvider = process.env.STRIPE_API_KEY
     ]
   : []
 
+// Product photos go to an S3-compatible bucket (Cloudflare R2 in production)
+// so they survive redeploys. Without S3 settings they stay on the local disk.
+const fileModule = process.env.S3_BUCKET
+  ? [
+      {
+        resolve: "@medusajs/medusa/file",
+        options: {
+          providers: [
+            {
+              resolve: "@medusajs/medusa/file-s3",
+              id: "s3",
+              options: {
+                file_url: process.env.S3_FILE_URL,
+                access_key_id: process.env.S3_ACCESS_KEY_ID,
+                secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
+                region: process.env.S3_REGION || "auto",
+                bucket: process.env.S3_BUCKET,
+                endpoint: process.env.S3_ENDPOINT,
+                additional_client_config: { forcePathStyle: true },
+              },
+            },
+          ],
+        },
+      },
+    ]
+  : []
+
+// With Redis available (production), events, workflows, locks and caching are
+// shared between the server and the worker instead of living in memory.
+const redisModules = REDIS_URL
+  ? [
+      {
+        resolve: "@medusajs/medusa/event-bus-redis",
+        options: { redisUrl: REDIS_URL },
+      },
+      {
+        resolve: "@medusajs/medusa/workflow-engine-redis",
+        options: { redis: { redisUrl: REDIS_URL } },
+      },
+      {
+        resolve: "@medusajs/medusa/locking",
+        options: {
+          providers: [
+            {
+              resolve: "@medusajs/medusa/locking-redis",
+              id: "locking-redis",
+              is_default: true,
+              options: { redisUrl: REDIS_URL },
+            },
+          ],
+        },
+      },
+    ]
+  : []
+
 module.exports = defineConfig({
   // Product and category translations (Spanish, Catalan, English).
   featureFlags: {
@@ -27,6 +84,11 @@ module.exports = defineConfig({
   },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
+    redisUrl: REDIS_URL,
+    workerMode: process.env.MEDUSA_WORKER_MODE as
+      | "shared"
+      | "worker"
+      | "server",
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
@@ -34,6 +96,10 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET,
       cookieSecret: process.env.COOKIE_SECRET,
     }
+  },
+  admin: {
+    disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
+    backendUrl: process.env.MEDUSA_BACKEND_URL,
   },
   modules: [
     {
@@ -45,5 +111,7 @@ module.exports = defineConfig({
         providers: stripeProvider,
       },
     },
+    ...fileModule,
+    ...redisModules,
   ],
 })

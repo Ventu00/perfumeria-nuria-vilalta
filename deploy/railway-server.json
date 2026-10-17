@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "buildCommand": "npm ci && cd apps/backend && npx medusa build && cd .medusa/server && npm install --omit=dev"
+  },
+  "deploy": {
+    "startCommand": "cd apps/backend/.medusa/server && npx medusa db:migrate && (test -z \"$ADMIN_EMAIL\" || npx medusa user -e \"$ADMIN_EMAIL\" -p \"$ADMIN_PASSWORD\" || true) && npm run start",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
