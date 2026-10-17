@@ -2,6 +2,24 @@ import { loadEnv, defineConfig } from '@medusajs/framework/utils'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
+// Stripe covers cards, Bizum, Apple Pay, Google Pay and Amazon Pay through one
+// Payment Element. Which methods show is decided in the Stripe Dashboard
+// (Settings > Payment methods), so no code change is needed to add or remove one.
+const stripeProvider = process.env.STRIPE_API_KEY
+  ? [
+      {
+        resolve: "@medusajs/medusa/payment-stripe",
+        id: "stripe",
+        options: {
+          apiKey: process.env.STRIPE_API_KEY,
+          webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+          automaticPaymentMethods: true,
+          capture: true,
+        },
+      },
+    ]
+  : []
+
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
@@ -12,5 +30,13 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET,
       cookieSecret: process.env.COOKIE_SECRET,
     }
-  }
+  },
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: stripeProvider,
+      },
+    },
+  ],
 })

@@ -22,6 +22,16 @@ const StripeWrapper: React.FC<StripeWrapperProps> = ({
 }) => {
   const options: StripeElementsOptions = {
     clientSecret: paymentSession!.data?.client_secret as string | undefined,
+    locale: "es",
+    appearance: {
+      theme: "stripe",
+      variables: {
+        colorPrimary: "#111111",
+        colorText: "#111111",
+        borderRadius: "2px",
+        fontSizeBase: "16px",
+      },
+    },
   }
 
   if (!stripeKey) {
