@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import type { SearchClient } from "instantsearch.js"
 import { Configure, InstantSearch } from "react-instantsearch"
@@ -14,7 +15,7 @@ const StoreTemplate = ({ currencyCode }: { currencyCode: string }) => {
   return (
     <div className="py-6 content-container" data-testid="category-container">
       <div className="mb-8 text-2xl-semi">
-        <h1 data-testid="store-page-title">All products</h1>
+        <h1 data-testid="store-page-title"><T>Todos los productos</T></h1>
       </div>
 
       <div className="flex flex-col small:flex-row small:items-start">

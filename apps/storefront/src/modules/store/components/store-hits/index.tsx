@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import type { Hit } from "instantsearch.js"
 import { useEffect, useRef } from "react"
@@ -69,7 +70,7 @@ const StoreHits = ({ hitsPerPage, currencyCode }: StoreHitsProps) => {
           className="py-16 text-center text-ui-fg-subtle"
           data-testid="no-products"
         >
-          No products matched these filters.
+          <T>No hay productos con estos filtros.</T>
         </Text>
       ) : (
         <ul

@@ -1,5 +1,7 @@
 "use client"
 
+import { useLang } from "@lib/i18n/provider"
+
 import { Stripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { HttpTypes } from "@medusajs/types"
@@ -20,9 +22,11 @@ const StripeWrapper: React.FC<StripeWrapperProps> = ({
   stripePromise,
   children,
 }) => {
+  const lang = useLang()
   const options: StripeElementsOptions = {
     clientSecret: paymentSession!.data?.client_secret as string | undefined,
-    locale: "es",
+    // Stripe has no Catalan; Spanish is the closest it offers.
+    locale: lang === "ca" ? "es" : lang,
     appearance: {
       theme: "stripe",
       variables: {

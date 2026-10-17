@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Heading, Text } from "@modules/common/components/ui"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
@@ -9,14 +10,13 @@ const EmptyCartMessage = () => {
         level="h1"
         className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
       >
-        Cart
+        <T>Cesta</T>
       </Heading>
       <Text className="text-base-regular mt-4 mb-6 max-w-[32rem]">
-        You don&apos;t have anything in your cart. Let&apos;s change that, use
-        the link below to start browsing our products.
+        <T>Tu cesta está vacía. Echa un vistazo a nuestros productos con el enlace de abajo.</T>
       </Text>
       <div>
-        <InteractiveLink href="/store">Explore products</InteractiveLink>
+        <InteractiveLink href="/store"><T>Ver productos</T></InteractiveLink>
       </div>
     </div>
   )

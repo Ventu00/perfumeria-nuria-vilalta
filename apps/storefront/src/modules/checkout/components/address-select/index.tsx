@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Listbox, Transition } from "@headlessui/react"
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@modules/common/components/ui"
@@ -44,7 +45,7 @@ const AddressSelect = ({
               <span className="block truncate">
                 {selectedAddress
                   ? selectedAddress.address_1
-                  : "Choose an address"}
+                  : <T>Elige una dirección</T>}
               </span>
               <ChevronUpDown
                 className={clx("transition-rotate duration-200", {

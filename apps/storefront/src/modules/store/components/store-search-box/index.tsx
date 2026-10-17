@@ -1,4 +1,5 @@
 "use client"
+import { useT } from "@lib/i18n/provider"
 
 import { MagnifyingGlass, XMarkMini } from "@medusajs/icons"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -12,6 +13,7 @@ const DEBOUNCE_MS = 250
  * while the query itself is debounced.
  */
 const StoreSearchBox = () => {
+  const t = useT()
   const timer = useRef<number | undefined>(undefined)
 
   const queryHook = useCallback(
@@ -49,8 +51,8 @@ const StoreSearchBox = () => {
           setInputValue(event.target.value)
           refine(event.target.value)
         }}
-        placeholder="Search products"
-        aria-label="Search products"
+        placeholder={t("Buscar productos")}
+        aria-label={t("Buscar productos")}
         className="txt-medium w-full bg-transparent py-3 text-ui-fg-base outline-none placeholder:text-ui-fg-muted [&::-webkit-search-cancel-button]:hidden"
         data-testid="store-search-input"
       />
@@ -58,7 +60,7 @@ const StoreSearchBox = () => {
         <button
           type="button"
           onClick={clear}
-          aria-label="Clear search"
+          aria-label={t("Borrar búsqueda")}
           className="shrink-0 text-ui-fg-muted hover:text-ui-fg-base"
           data-testid="store-search-clear"
         >

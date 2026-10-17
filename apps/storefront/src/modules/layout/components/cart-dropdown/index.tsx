@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import {
   Popover,
@@ -85,7 +86,7 @@ const CartDropdown = ({
             className="hover:text-ui-fg-base"
             href="/cart"
             data-testid="nav-cart-link"
-          >{`Cesta (${totalItems})`}</LocalizedClientLink>
+          ><T>Cesta</T> ({totalItems})</LocalizedClientLink>
         </PopoverButton>
         <Transition
           show={cartDropdownOpen}
@@ -103,7 +104,7 @@ const CartDropdown = ({
             data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-center">
-              <h3 className="text-large-semi">Cart</h3>
+              <h3 className="text-large-semi"><T>Cesta</T></h3>
             </div>
             {cartState && cartState.items?.length ? (
               <>
@@ -168,7 +169,7 @@ const CartDropdown = ({
                             className="mt-1"
                             data-testid="cart-item-remove-button"
                           >
-                            Remove
+                            <T>Quitar</T>
                           </DeleteButton>
                         </div>
                       </div>
@@ -197,7 +198,7 @@ const CartDropdown = ({
                       size="large"
                       data-testid="go-to-cart-button"
                     >
-                      Go to cart
+                      <T>Ir a la cesta</T>
                     </Button>
                   </LocalizedClientLink>
                 </div>
@@ -208,12 +209,12 @@ const CartDropdown = ({
                   <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>
-                  <span>Your shopping bag is empty.</span>
+                  <span><T>Tu cesta está vacía.</T></span>
                   <div>
                     <LocalizedClientLink href="/store">
                       <>
-                        <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
+                        <span className="sr-only"><T>Ir a todos los productos</T></span>
+                        <Button onClick={close}><T>Ver productos</T></Button>
                       </>
                     </LocalizedClientLink>
                   </div>

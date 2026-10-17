@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Container, Heading, Text } from "@modules/common/components/ui"
 
 import { isStripeLike, paymentInfoMap } from "@lib/constants"
@@ -15,25 +16,25 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
   return (
     <div>
       <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
-        Payment
+        <T>Pago</T>
       </Heading>
       <div>
         {payment && (
           <div className="flex items-start gap-x-1 w-full">
             <div className="flex flex-col w-1/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
+                <T>Método de pago</T>
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method"
               >
-                {paymentInfoMap[payment.provider_id].title}
+                <T>{paymentInfoMap[payment.provider_id].title}</T>
               </Text>
             </div>
             <div className="flex flex-col w-2/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment details
+                <T>Datos de pago</T>
               </Text>
               <div className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
                 <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">

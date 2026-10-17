@@ -1,3 +1,4 @@
+import { getT } from "@lib/i18n/server"
 import { retrieveCart } from "@lib/data/cart"
 import { retrieveCustomer } from "@lib/data/customer"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
@@ -6,8 +7,11 @@ import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-export const metadata: Metadata = {
-  title: "Checkout",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  return {
+    title: t("Finalizar compra"),
+  }
 }
 
 export default async function Checkout() {

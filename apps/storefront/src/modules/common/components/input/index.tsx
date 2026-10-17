@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Label } from "@modules/common/components/ui"
 import React, { useEffect, useImperativeHandle, useState } from "react"
 
@@ -53,7 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onClick={() => inputRef.current?.focus()}
             className="flex items-center justify-center mx-3 px-1 transition-all absolute duration-300 top-3 -z-1 origin-0 text-ui-fg-subtle"
           >
-            {label}
+            <T>{label}</T>
             {required && <span className="text-rose-500">*</span>}
           </label>
           {type === "password" && (

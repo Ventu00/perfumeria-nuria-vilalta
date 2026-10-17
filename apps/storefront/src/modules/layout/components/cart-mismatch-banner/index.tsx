@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { transferCart } from "@lib/data/customer"
 import { ExclamationCircleSolid } from "@medusajs/icons"
@@ -34,7 +35,7 @@ function CartMismatchBanner(props: {
       <div className="flex flex-col small:flex-row small:gap-2 gap-1 items-center">
         <span className="flex items-center gap-1">
           <ExclamationCircleSolid className="inline" />
-          Something went wrong when we tried to transfer your cart
+          <T>Algo ha ido mal al transferir tu cesta</T>
         </span>
 
         <span>·</span>

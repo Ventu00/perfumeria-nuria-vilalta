@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { listProducts } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@modules/common/components/ui"
@@ -31,7 +32,7 @@ export default async function ProductRail({
       <div className="flex justify-between mb-8">
         <Text className="txt-xlarge">{collection.title}</Text>
         <InteractiveLink href={`/collections/${collection.handle}`}>
-          View all
+          <T>Ver todo</T>
         </InteractiveLink>
       </div>
       <ul className="grid grid-cols-2 small:grid-cols-3 gap-x-6 gap-y-24 small:gap-y-36">

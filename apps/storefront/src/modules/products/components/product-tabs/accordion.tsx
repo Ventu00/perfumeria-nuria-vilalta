@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Text, clx } from "@modules/common/components/ui"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import React from "react"
@@ -56,7 +57,7 @@ const Item: React.FC<AccordionItemProps> = ({
         <div className="flex flex-col">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-4">
-              <Text className="text-ui-fg-subtle text-sm">{title}</Text>
+              <Text className="text-ui-fg-subtle text-sm"><T>{title}</T></Text>
             </div>
             <AccordionPrimitive.Trigger>
               {customTrigger || <MorphingTrigger />}

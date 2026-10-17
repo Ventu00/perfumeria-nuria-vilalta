@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { isManual, isStripeLike } from "@lib/constants"
 import { placeOrder } from "@lib/data/cart"
@@ -41,7 +42,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
     default:
-      return <Button disabled>Select a payment method</Button>
+      return <Button disabled><T>Elige un método de pago</T></Button>
   }
 }
 
@@ -146,7 +147,7 @@ const StripePaymentButton = ({
         isLoading={submitting}
         data-testid={dataTestId}
       >
-        Place order
+        <T>Realizar pedido</T>
       </Button>
       <ErrorMessage
         error={errorMessage}
@@ -185,7 +186,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
         size="large"
         data-testid="submit-order-button"
       >
-        Place order
+        <T>Realizar pedido</T>
       </Button>
       <ErrorMessage
         error={errorMessage}

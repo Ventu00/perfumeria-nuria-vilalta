@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { clx } from "@modules/common/components/ui"
 
 import { getProductPrice } from "@lib/util/get-product-price"
@@ -39,7 +40,7 @@ export default function ProductPrice({
       {selectedPrice.price_type === "sale" && (
         <>
           <p>
-            <span className="text-ui-fg-subtle">Original: </span>
+            <span className="text-ui-fg-subtle"><T>Original:</T> </span>
             <span
               className="line-through"
               data-testid="original-product-price"

@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { addToCart } from "@lib/data/cart"
 import { useIntersection } from "@lib/hooks/use-in-view"
@@ -177,10 +178,10 @@ export default function ProductActions({
           data-testid="add-product-button"
         >
           {!selectedVariant
-            ? "Elige una opción"
+            ? <T>Elige una opción</T>
             : !inStock || !isValidVariant
-            ? "Agotado"
-            : "Añadir a la cesta"}
+            ? <T>Agotado</T>
+            : <T>Añadir a la cesta</T>}
         </Button>
         <MobileActions
           product={product}

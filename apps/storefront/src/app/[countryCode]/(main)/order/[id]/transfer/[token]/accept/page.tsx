@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { acceptTransferRequest } from "@lib/data/orders"
 import { Heading, Text } from "@modules/common/components/ui"
 import TransferImage from "@modules/order/components/transfer-image"
@@ -18,7 +19,7 @@ export default async function TransferPage({
         {success && (
           <>
             <Heading level="h1" className="text-xl text-zinc-900">
-              Order transfered!
+              <T>Pedido transferido</T>
             </Heading>
             <Text className="text-zinc-600">
               Order {id} has been successfully transfered to the new owner.
@@ -28,7 +29,7 @@ export default async function TransferPage({
         {!success && (
           <>
             <Text className="text-zinc-600">
-              There was an error accepting the transfer. Please try again.
+              <T>No se ha podido aceptar la transferencia. Inténtalo de nuevo.</T>
             </Text>
             {error && (
               <Text className="text-red-500">Error message: {error}</Text>

@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { useActionState } from "react"
 import Input from "@modules/common/components/input"
@@ -21,39 +22,38 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="text-large-semi uppercase mb-6">
-        Become a Medusa Store Member
+        <T>Hazte clienta de Núria Vilalta</T>
       </h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        Create your Medusa Store Member profile, and get access to an enhanced
-        shopping experience.
+        <T>Crea tu cuenta y compra más rápido, guarda tus direcciones y consulta tus pedidos.</T>
       </p>
       {message?.state === "verification_required" && (
         <div
           className="w-full mb-4 text-center text-base-regular text-ui-fg-base bg-ui-bg-subtle border border-ui-border-base rounded-rounded p-4"
           data-testid="register-verification-message"
         >
-          We sent a verification link to <strong>{message.email}</strong>.
+          <T>Hemos enviado un enlace de verificación a</T> <strong>{message.email}</strong>.
           Please check your inbox to verify your email, then sign in.
         </div>
       )}
       <form className="w-full flex flex-col" action={formAction}>
         <div className="flex flex-col w-full gap-y-2">
           <Input
-            label="First name"
+            label="Nombre"
             name="first_name"
             required
             autoComplete="given-name"
             data-testid="first-name-input"
           />
           <Input
-            label="Last name"
+            label="Apellidos"
             name="last_name"
             required
             autoComplete="family-name"
             data-testid="last-name-input"
           />
           <Input
-            label="Email"
+            label="Correo electrónico"
             name="email"
             required
             type="email"
@@ -61,14 +61,14 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="email-input"
           />
           <Input
-            label="Phone"
+            label="Teléfono"
             name="phone"
             type="tel"
             autoComplete="tel"
             data-testid="phone-input"
           />
           <Input
-            label="Password"
+            label="Contraseña"
             name="password"
             required
             type="password"
@@ -86,19 +86,19 @@ const Register = ({ setCurrentView }: Props) => {
             href="/content/privacy-policy"
             className="underline"
           >
-            Privacy Policy
+            <T>Política de privacidad</T>
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
             className="underline"
           >
-            Terms of Use
+            <T>Condiciones de uso</T>
           </LocalizedClientLink>
           .
         </span>
         <SubmitButton className="w-full mt-6" data-testid="register-button">
-          Join
+          <T>Crear cuenta</T>
         </SubmitButton>
       </form>
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
@@ -107,7 +107,7 @@ const Register = ({ setCurrentView }: Props) => {
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
           className="underline"
         >
-          Sign in
+          <T>Iniciar sesión</T>
         </button>
         .
       </span>

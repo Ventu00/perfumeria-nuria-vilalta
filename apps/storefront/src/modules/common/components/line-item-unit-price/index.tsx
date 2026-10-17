@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import { clx } from "@modules/common/components/ui"
@@ -27,7 +28,7 @@ const LineItemUnitPrice = ({
         <>
           <p>
             {style === "default" && (
-              <span className="text-ui-fg-muted">Original: </span>
+              <span className="text-ui-fg-muted"><T>Original:</T> </span>
             )}
             <span
               className="line-through"

@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx } from "@modules/common/components/ui"
 import React, { Fragment, useMemo } from "react"
@@ -111,7 +112,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   <span>
                     {variant
                       ? Object.values(options).join(" / ")
-                      : "Select Options"}
+                      : <T>Elige una opción</T>}
                   </span>
                   <ChevronDown />
                 </div>
@@ -124,10 +125,10 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 data-testid="mobile-cart-button"
               >
                 {!variant
-                  ? "Elige una opción"
+                  ? <T>Elige una opción</T>
                   : !inStock
-                  ? "Agotado"
-                  : "Añadir a la cesta"}
+                  ? <T>Agotado</T>
+                  : <T>Añadir a la cesta</T>}
               </Button>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { declineTransferRequest } from "@lib/data/orders"
 import { Heading, Text } from "@modules/common/components/ui"
 import TransferImage from "@modules/order/components/transfer-image"
@@ -18,7 +19,7 @@ export default async function TransferPage({
         {success && (
           <>
             <Heading level="h1" className="text-xl text-zinc-900">
-              Order transfer declined!
+              <T>Transferencia rechazada</T>
             </Heading>
             <Text className="text-zinc-600">
               Transfer of order {id} has been successfully declined.
@@ -28,7 +29,7 @@ export default async function TransferPage({
         {!success && (
           <>
             <Text className="text-zinc-600">
-              There was an error declining the transfer. Please try again.
+              <T>No se ha podido rechazar la transferencia. Inténtalo de nuevo.</T>
             </Text>
             {error && (
               <Text className="text-red-500">Error message: {error}</Text>

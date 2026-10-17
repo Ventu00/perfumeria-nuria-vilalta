@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 import { Radio, RadioGroup } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
 import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
@@ -179,7 +180,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="edit-delivery-button"
               >
-                Edit
+                <T>Editar</T>
               </button>
             </Text>
           )}
@@ -189,10 +190,10 @@ const Shipping: React.FC<ShippingProps> = ({
           <div className="grid">
             <div className="flex flex-col">
               <span className="font-medium txt-medium text-ui-fg-base">
-                Shipping method
+                <T>Método de envío</T>
               </span>
               <span className="mb-4 text-ui-fg-muted txt-medium">
-                How would you like you order delivered
+                <T>¿Cómo quieres recibir tu pedido?</T>
               </span>
             </div>
             <div data-testid="delivery-options-container">
@@ -226,7 +227,7 @@ const Shipping: React.FC<ShippingProps> = ({
                           checked={showPickupOptions === PICKUP_OPTION_ON}
                         />
                         <span className="text-base-regular">
-                          Pick up your order
+                          <T>Recoge tu pedido</T>
                         </span>
                       </div>
                       <span className="justify-self-end text-ui-fg-base">
@@ -302,10 +303,10 @@ const Shipping: React.FC<ShippingProps> = ({
             <div className="grid">
               <div className="flex flex-col">
                 <span className="font-medium txt-medium text-ui-fg-base">
-                  Store
+                  <T>Tienda</T>
                 </span>
                 <span className="mb-4 text-ui-fg-muted txt-medium">
-                  Choose a store near you
+                  <T>Elige una tienda cercana</T>
                 </span>
               </div>
               <div data-testid="delivery-options-container">
@@ -379,7 +380,7 @@ const Shipping: React.FC<ShippingProps> = ({
               disabled={!cart.shipping_methods?.[0]}
               data-testid="submit-delivery-option-button"
             >
-              Continue to payment
+              <T>Continuar con el pago</T>
             </Button>
           </div>
         </>
@@ -389,7 +390,7 @@ const Shipping: React.FC<ShippingProps> = ({
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Method
+                  <T>Método</T>
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods!.at(-1)!.name}{" "}

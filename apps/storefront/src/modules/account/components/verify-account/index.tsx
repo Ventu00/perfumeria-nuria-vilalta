@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
@@ -37,21 +38,21 @@ const VerifyAccount = () => {
       className="max-w-sm w-full flex flex-col items-center text-center gap-y-4"
       data-testid="verify-account-page"
     >
-      <h1 className="text-large-semi uppercase">Email verification</h1>
+      <h1 className="text-large-semi uppercase"><T>Verificación del correo</T></h1>
 
       {state === "verifying" && (
         <p className="text-base-regular text-ui-fg-base">
-          Verifying your email...
+          <T>Verificando tu correo...</T>
         </p>
       )}
 
       {state === "success" && (
         <>
           <p className="text-base-regular text-ui-fg-base">
-            Your email is verified. You can now sign in to your account.
+            <T>Tu correo está verificado. Ya puedes iniciar sesión.</T>
           </p>
           <LocalizedClientLink href="/account">
-            <Button variant="primary">Go to sign in</Button>
+            <Button variant="primary"><T>Ir a iniciar sesión</T></Button>
           </LocalizedClientLink>
         </>
       )}
@@ -59,11 +60,10 @@ const VerifyAccount = () => {
       {state === "error" && (
         <>
           <p className="text-base-regular text-ui-fg-base">
-            This verification link is invalid or has expired. Sign in to receive
-            a new verification email.
+            <T>Este enlace no es válido o ha caducado. Inicia sesión para recibir uno nuevo.</T>
           </p>
           <LocalizedClientLink href="/account">
-            <Button variant="secondary">Go to sign in</Button>
+            <Button variant="secondary"><T>Ir a iniciar sesión</T></Button>
           </LocalizedClientLink>
         </>
       )}

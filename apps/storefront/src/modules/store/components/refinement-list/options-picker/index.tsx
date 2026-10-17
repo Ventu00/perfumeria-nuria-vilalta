@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import * as Accordion from "@radix-ui/react-accordion"
 import { useEffect, useState } from "react"
@@ -58,7 +59,7 @@ const OptionsPicker = ({
     <div className="flex flex-col gap-y-4">
       <div className="flex items-center justify-between px-1">
         <span className="txt-compact-small-plus text-ui-fg-subtle">
-          Options
+          <T>Opciones</T>
         </span>
       </div>
       <Accordion.Root

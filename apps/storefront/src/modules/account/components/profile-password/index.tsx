@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import React from "react"
 import Input from "@modules/common/components/input"
@@ -30,9 +31,9 @@ const ProfilePassword: React.FC<MyInformationProps> = ({ customer: _customer }) 
       className="w-full"
     >
       <AccountInfo
-        label="Password"
+        label="Contraseña"
         currentInfo={
-          <span>The password is not shown for security reasons</span>
+          <span><T>La contraseña no se muestra por seguridad</T></span>
         }
         isSuccess={successState}
         isError={false}
@@ -42,21 +43,21 @@ const ProfilePassword: React.FC<MyInformationProps> = ({ customer: _customer }) 
       >
         <div className="grid grid-cols-2 gap-4">
           <Input
-            label="Old password"
+            label="Contraseña actual"
             name="old_password"
             required
             type="password"
             data-testid="old-password-input"
           />
           <Input
-            label="New password"
+            label="Nueva contraseña"
             type="password"
             name="new_password"
             required
             data-testid="new-password-input"
           />
           <Input
-            label="Confirm password"
+            label="Repite la contraseña"
             type="password"
             name="confirm_password"
             required

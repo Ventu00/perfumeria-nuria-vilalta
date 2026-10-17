@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { useToggleRefinement } from "react-instantsearch"
 
@@ -29,7 +30,7 @@ const OnSaleToggle = ({ currencyCode }: { currencyCode: string }) => {
         data-testid="on-sale-toggle"
       />
       <span className="txt-compact-small-plus text-ui-fg-subtle">
-        On sale only
+        <T>Solo ofertas</T>
       </span>
       {typeof value.count === "number" && (
         <span className="text-small-regular text-ui-fg-muted">

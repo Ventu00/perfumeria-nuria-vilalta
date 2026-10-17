@@ -1,4 +1,5 @@
 "use client"
+import { T, useT } from "@lib/i18n/provider"
 
 import { MagnifyingGlass } from "@medusajs/icons"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -22,6 +23,7 @@ const HITS_PER_PAGE = 12
 const DEBOUNCE_MS = 250
 
 const SearchPanel = ({ onNavigate }: { onNavigate: () => void }) => {
+  const t = useT()
   const timer = useRef<number | undefined>(undefined)
 
   const queryHook = useCallback(
@@ -56,8 +58,8 @@ const SearchPanel = ({ onNavigate }: { onNavigate: () => void }) => {
             setInputValue(event.target.value)
             refine(event.target.value)
           }}
-          placeholder="Search products"
-          aria-label="Search products"
+          placeholder={t("Buscar productos")}
+          aria-label={t("Buscar productos")}
           autoFocus
           className="txt-medium w-full bg-transparent py-4 text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
           data-testid="search-input"
@@ -70,7 +72,7 @@ const SearchPanel = ({ onNavigate }: { onNavigate: () => void }) => {
             className="px-4 py-6 text-center text-ui-fg-muted"
             data-testid="search-empty"
           >
-            Start typing to search for products.
+            <T>Empieza a escribir para buscar productos.</T>
           </Text>
         ) : status === "error" ? (
           <Text
@@ -114,6 +116,7 @@ const SearchPanel = ({ onNavigate }: { onNavigate: () => void }) => {
 }
 
 const Search = () => {
+  const t = useT()
   const { state: isOpen, open, close } = useToggleState()
 
   return (
@@ -121,7 +124,7 @@ const Search = () => {
       <button
         type="button"
         onClick={open}
-        aria-label="Search products"
+        aria-label={t("Buscar productos")}
         className="flex items-center hover:text-ui-fg-base"
         data-testid="nav-search-button"
       >

@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Heading } from "@modules/common/components/ui"
 
 import ItemsPreviewTemplate from "@modules/cart/templates/preview"
@@ -15,7 +16,7 @@ const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           level="h2"
           className="flex flex-row text-3xl-regular items-baseline"
         >
-          In your Cart
+          <T>En tu cesta</T>
         </Heading>
         <Divider className="my-6" />
         <CartTotals totals={cart} />

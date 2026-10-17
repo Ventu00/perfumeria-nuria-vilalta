@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import Image from "next/image"
 import { Suspense } from "react"
 
@@ -7,6 +8,7 @@ import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
+import LanguageSwitch from "@modules/layout/components/language-switch"
 import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
 
@@ -42,6 +44,7 @@ export default async function Nav() {
           </div>
 
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+            <LanguageSwitch className="hidden small:flex" />
             <Search />
             <div className="hidden small:flex items-center gap-x-6 h-full">
               <LocalizedClientLink
@@ -49,7 +52,7 @@ export default async function Nav() {
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Mi cuenta
+                <T>Mi cuenta</T>
               </LocalizedClientLink>
             </div>
             <Suspense
@@ -59,7 +62,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Cesta (0)
+                  <T>Cesta</T> (0)
                 </LocalizedClientLink>
               }
             >

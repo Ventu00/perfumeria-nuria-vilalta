@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Disclosure } from "@headlessui/react"
 import { Badge, Button, clx } from "@modules/common/components/ui"
 import { useEffect } from "react"
@@ -63,7 +64,7 @@ const AccountInfo = ({
             data-testid="edit-button"
             data-active={state}
           >
-            {state ? "Cancel" : "Edit"}
+            {state ? "Cancelar" : "Editar"}
           </Button>
         </div>
       </div>
@@ -126,7 +127,7 @@ const AccountInfo = ({
                 type="submit"
                 data-testid="save-button"
               >
-                Save changes
+                <T>Guardar cambios</T>
               </Button>
             </div>
           </div>

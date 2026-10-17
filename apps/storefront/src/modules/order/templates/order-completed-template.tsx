@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Heading } from "@modules/common/components/ui"
 import { cookies as nextCookies } from "next/headers"
 
@@ -33,12 +34,12 @@ export default async function OrderCompletedTemplate({
             level="h1"
             className="flex flex-col gap-y-3 text-ui-fg-base text-3xl mb-4"
           >
-            <span>Thank you!</span>
-            <span>Your order was placed successfully.</span>
+            <span><T>¡Gracias!</T></span>
+            <span><T>Tu pedido se ha realizado correctamente.</T></span>
           </Heading>
           <OrderDetails order={order} />
           <Heading level="h2" className="flex flex-row text-3xl-regular">
-            Summary
+            <T>Resumen</T>
           </Heading>
           <Items order={order} />
           <CartTotals totals={order} />

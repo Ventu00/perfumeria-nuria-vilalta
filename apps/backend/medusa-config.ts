@@ -21,6 +21,10 @@ const stripeProvider = process.env.STRIPE_API_KEY
   : []
 
 module.exports = defineConfig({
+  // Product and category translations (Spanish, Catalan, English).
+  featureFlags: {
+    translation: true,
+  },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     http: {
@@ -32,6 +36,9 @@ module.exports = defineConfig({
     }
   },
   modules: [
+    {
+      resolve: "@medusajs/medusa/translation",
+    },
     {
       resolve: "@medusajs/medusa/payment",
       options: {

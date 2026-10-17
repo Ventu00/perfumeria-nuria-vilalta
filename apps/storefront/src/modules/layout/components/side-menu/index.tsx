@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
@@ -40,7 +41,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                   data-testid="nav-menu-button"
                   className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
                 >
-                  Menu
+                  <T>Menú</T>
                 </Popover.Button>
               </div>
 

@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { acceptTransferRequest, declineTransferRequest } from "@lib/data/orders"
 import { Button, Text } from "@modules/common/components/ui"
@@ -40,12 +41,12 @@ const TransferActions = ({ id, token }: { id: string; token: string }) => {
     <div className="flex flex-col gap-y-4">
       {status?.accept === "success" && (
         <Text className="text-emerald-500">
-          Order transferred successfully!
+          <T>Pedido transferido correctamente.</T>
         </Text>
       )}
       {status?.decline === "success" && (
         <Text className="text-emerald-500">
-          Order transfer declined successfully!
+          <T>Has rechazado la transferencia del pedido.</T>
         </Text>
       )}
       {status?.accept !== "success" && status?.decline !== "success" && (
@@ -58,7 +59,7 @@ const TransferActions = ({ id, token }: { id: string; token: string }) => {
               status?.accept === "pending" || status?.decline === "pending"
             }
           >
-            Accept transfer
+            <T>Aceptar transferencia</T>
           </Button>
           <Button
             size="large"
@@ -69,7 +70,7 @@ const TransferActions = ({ id, token }: { id: string; token: string }) => {
               status?.accept === "pending" || status?.decline === "pending"
             }
           >
-            Decline transfer
+            <T>Rechazar transferencia</T>
           </Button>
         </div>
       )}

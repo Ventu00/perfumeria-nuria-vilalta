@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Checkbox, Label } from "@modules/common/components/ui"
 import React from "react"
 
@@ -33,7 +34,7 @@ const CheckboxWithLabel: React.FC<CheckboxProps> = ({
         htmlFor="checkbox"
         className="!transform-none !txt-medium"
       >
-        {label}
+        <T>{label}</T>
       </Label>
     </div>
   )

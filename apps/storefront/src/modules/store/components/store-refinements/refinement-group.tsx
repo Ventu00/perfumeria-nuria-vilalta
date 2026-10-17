@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import clsx from "clsx"
 import { useRefinementList } from "react-instantsearch"
@@ -22,7 +23,7 @@ const RefinementGroup = ({ attribute, title }: RefinementGroupProps) => {
   return (
     <div className="flex flex-col gap-y-3">
       <span className="txt-compact-small-plus text-ui-fg-subtle">
-        {title}
+        <T>{title}</T>
       </span>
       <ul className="flex flex-col gap-y-2 pr-6">
         {items.map((item) => (

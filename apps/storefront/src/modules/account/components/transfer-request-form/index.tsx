@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 import { createTransferRequest } from "@lib/data/orders"
 import { CheckCircleMiniSolid, XCircleSolid } from "@medusajs/icons"
 import { Heading, IconButton, Input, Text } from "@modules/common/components/ui"
@@ -27,11 +28,11 @@ export default function TransferRequestForm() {
       <div className="grid sm:grid-cols-2 items-center gap-x-8 gap-y-4 w-full">
         <div className="flex flex-col gap-y-1">
           <Heading level="h3" className="!text-sm font-semibold text-neutral-950">
-            Order transfers
+            <T>Transferencias de pedidos</T>
           </Heading>
           <p className="text-small-regular text-neutral-500">
-            Can&apos;t find the order you are looking for?
-            <br /> Connect an order to your account.
+            <T>¿No encuentras el pedido que buscas?</T>
+            <br /> <T>Vincula un pedido a tu cuenta.</T>
           </p>
         </div>
         <form
@@ -39,13 +40,13 @@ export default function TransferRequestForm() {
           className="flex flex-col gap-y-1 sm:items-end"
         >
           <div className="flex flex-col gap-y-2 w-full">
-            <Input className="w-full" name="order_id" placeholder="Order ID" />
+            <Input className="w-full" name="order_id" placeholder="Número de pedido" />
             <SubmitButton
               variant="secondary"
               size="small"
               className="w-fit whitespace-nowrap self-end"
             >
-              Request transfer
+              <T>Solicitar transferencia</T>
             </SubmitButton>
           </div>
         </form>

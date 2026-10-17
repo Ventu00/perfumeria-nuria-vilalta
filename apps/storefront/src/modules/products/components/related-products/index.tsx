@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
@@ -50,10 +51,10 @@ export default async function RelatedProducts({
     <div className="product-page-constraint">
       <div className="flex flex-col items-center text-center mb-16">
         <span className="text-base-regular text-gray-600 mb-6">
-          Related products
+          <T>También te puede gustar</T>
         </span>
         <p className="text-2xl-regular text-ui-fg-base max-w-lg">
-          You might also want to check out these products.
+          <T>Otros productos que te pueden interesar.</T>
         </p>
       </div>
 

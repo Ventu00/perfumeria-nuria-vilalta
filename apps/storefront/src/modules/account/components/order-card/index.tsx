@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Button } from "@modules/common/components/ui"
 import { useMemo } from "react"
 
@@ -76,7 +77,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
       <div className="flex justify-end">
         <LocalizedClientLink href={`/account/orders/details/${order.id}`}>
           <Button data-testid="order-details-link" variant="secondary">
-            See details
+            <T>Ver detalles</T>
           </Button>
         </LocalizedClientLink>
       </div>

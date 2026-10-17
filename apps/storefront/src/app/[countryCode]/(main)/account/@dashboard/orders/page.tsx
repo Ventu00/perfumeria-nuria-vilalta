@@ -1,3 +1,5 @@
+import { getT } from "@lib/i18n/server"
+import { T } from "@lib/i18n/provider"
 import { Metadata } from "next"
 
 import OrderOverview from "@modules/account/components/order-overview"
@@ -6,9 +8,12 @@ import { listOrders } from "@lib/data/orders"
 import Divider from "@modules/common/components/divider"
 import TransferRequestForm from "@modules/account/components/transfer-request-form"
 
-export const metadata: Metadata = {
-  title: "Orders",
-  description: "Overview of your previous orders.",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  return {
+    title: t("Pedidos"),
+    description: t("Resumen de tus pedidos anteriores."),
+  }
 }
 
 export default async function Orders() {
@@ -21,10 +26,9 @@ export default async function Orders() {
   return (
     <div className="w-full" data-testid="orders-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Orders</h1>
+        <h1 className="text-2xl-semi"><T>Pedidos</T></h1>
         <p className="text-base-regular">
-          View your previous orders and their status. You can also create
-          returns or exchanges for your orders if needed.
+          <T>Consulta tus pedidos y su estado. También puedes solicitar devoluciones o cambios.</T>
         </p>
       </div>
       <div>

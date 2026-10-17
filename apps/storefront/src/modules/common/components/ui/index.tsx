@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import clsx from "clsx"
 import {
   ButtonHTMLAttributes,
@@ -94,7 +95,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {isLoading ? "Loading..." : children}
+        {isLoading ? <T>Cargando...</T> : children}
       </button>
     )
   }

@@ -1,4 +1,5 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import {
   Listbox,
@@ -63,8 +64,8 @@ const getLocalizedLanguageName = (
 
 const DEFAULT_OPTION: LanguageOption = {
   code: "",
-  name: "Default",
-  localizedName: "Default",
+  name: "Principal",
+  localizedName: "Principal",
   countryCode: "",
 }
 
@@ -128,7 +129,7 @@ const LanguageSelect = ({
       >
         <ListboxButton className="py-1 w-full">
           <div className="txt-compact-small flex items-start gap-x-2">
-            <span>Language:</span>
+            <span><T>Idioma:</T></span>
             {current && (
               <span className="txt-compact-small flex items-center gap-x-2">
                 {current.countryCode && (

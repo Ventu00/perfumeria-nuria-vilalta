@@ -1,10 +1,12 @@
 "use client"
+import { T } from "@lib/i18n/provider"
 
 import { Button, Heading } from "@modules/common/components/ui"
 
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 import DiscountCode from "@modules/checkout/components/discount-code"
+import GiftWrap from "@modules/cart/components/gift-wrap"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
 
@@ -28,8 +30,9 @@ const Summary = ({ cart }: SummaryProps) => {
   return (
     <div className="flex flex-col gap-y-4">
       <Heading level="h2" className="text-[2rem] leading-[2.75rem]">
-        Summary
+        <T>Resumen</T>
       </Heading>
+      <GiftWrap cart={cart} />
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals totals={cart} />
@@ -37,7 +40,7 @@ const Summary = ({ cart }: SummaryProps) => {
         href={"/checkout?step=" + step}
         data-testid="checkout-button"
       >
-        <Button className="w-full h-10">Go to checkout</Button>
+        <Button className="w-full h-10"><T>Finalizar compra</T></Button>
       </LocalizedClientLink>
     </div>
   )

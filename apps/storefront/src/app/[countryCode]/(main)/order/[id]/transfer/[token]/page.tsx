@@ -1,3 +1,4 @@
+import { T } from "@lib/i18n/provider"
 import { Heading, Text } from "@modules/common/components/ui"
 import TransferActions from "@modules/order/components/transfer-actions"
 import TransferImage from "@modules/order/components/transfer-image"
@@ -23,12 +24,10 @@ export default async function TransferPage({
         </Text>
         <div className="w-full h-px bg-zinc-200" />
         <Text className="text-zinc-600">
-          If you accept, the new owner will take over all responsibilities and
-          permissions associated with this order.
+          <T>Si aceptas, la nueva titular asumirá todas las responsabilidades y permisos de este pedido.</T>
         </Text>
         <Text className="text-zinc-600">
-          If you do not recognize this request or wish to retain ownership, no
-          further action is required.
+          <T>Si no reconoces esta solicitud o quieres conservar el pedido, no tienes que hacer nada.</T>
         </Text>
         <div className="w-full h-px bg-zinc-200" />
         <TransferActions id={id} token={token} />

@@ -1,3 +1,4 @@
+import { T, useT } from "@lib/i18n/provider"
 import { Radio as RadioGroupOption } from "@headlessui/react"
 import { Text, clx } from "@modules/common/components/ui"
 import React, { useContext, type JSX } from "react"
@@ -44,7 +45,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         <div className="flex items-center gap-x-4">
           <Radio checked={selectedPaymentOptionId === paymentProviderId} />
           <Text className="text-base-regular">
-            {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
+            <T>{paymentInfoMap[paymentProviderId]?.title || paymentProviderId}</T>
           </Text>
           {isManual(paymentProviderId) && isDevelopment && (
             <PaymentTest className="hidden small:block" />
@@ -76,6 +77,7 @@ export const StripePaymentContainer = ({
   setPaymentComplete: (complete: boolean) => void
 }) => {
   const stripeReady = useContext(StripeContext)
+  const t = useT()
 
   return (
     <PaymentContainer
@@ -88,7 +90,7 @@ export const StripePaymentContainer = ({
         (stripeReady ? (
           <div className="my-4 transition-all duration-150 ease-in-out">
             <Text className="txt-medium-plus text-ui-fg-base mb-1">
-              Elige cómo quieres pagar:
+              <T>Elige cómo quieres pagar:</T>
             </Text>
             <PaymentElement
               options={{ layout: "accordion" }}
@@ -103,7 +105,7 @@ export const StripePaymentContainer = ({
               onLoadError={(e) => {
                 setPaymentComplete(false)
                 setError(
-                  e.error?.message ?? "No se han podido cargar los métodos de pago."
+                  e.error?.message ?? t("No se han podido cargar los métodos de pago.")
                 )
               }}
             />
