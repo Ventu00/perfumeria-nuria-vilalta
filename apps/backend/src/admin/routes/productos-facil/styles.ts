@@ -16,6 +16,9 @@ export const styles = `
 .nv-input:focus { outline: 3px solid #b08d57; outline-offset: 2px; border-color: #111; }
 .nv-input:disabled { background: #f1f1f1; color: #555; }
 .nv-textarea { min-height: 220px; resize: vertical; }
+.nv-textarea-small { min-height: 140px; }
+.nv-lang { border-top: 1px solid #e3e3e3; margin-top: 16px; padding-top: 8px; }
+.nv-lang h3 { font-size: 22px; font-weight: 600; margin: 8px 0 0; }
 .nv-btn { font-size: 20px; font-weight: 600; min-height: 56px; padding: 12px 24px;
   border-radius: 8px; border: 2px solid #111; cursor: pointer; }
 .nv-btn:disabled { opacity: .6; cursor: wait; }

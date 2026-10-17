@@ -33,9 +33,13 @@ export const getCacheTag = async (tag: string): Promise<string> => {
   }
 }
 
+// Products are edited in the admin, which cannot purge this cache, so cached
+// responses also expire on their own after a minute.
+const CACHE_SECONDS = 60
+
 export const getCacheOptions = async (
   tag: string
-): Promise<{ tags: string[] } | Record<string, never>> => {
+): Promise<{ tags?: string[]; revalidate?: number }> => {
   if (typeof window !== "undefined") {
     return {}
   }
@@ -43,10 +47,10 @@ export const getCacheOptions = async (
   const cacheTag = await getCacheTag(tag)
 
   if (!cacheTag) {
-    return {}
+    return { revalidate: CACHE_SECONDS }
   }
 
-  return { tags: [`${cacheTag}`] }
+  return { tags: [`${cacheTag}`], revalidate: CACHE_SECONDS }
 }
 
 // `sameSite: "lax"` rather than `"strict"`: the customer returns from a

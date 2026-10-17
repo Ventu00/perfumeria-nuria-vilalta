@@ -22,6 +22,21 @@ type Draft = {
   images: string[]
 }
 
+// Optional Catalan and English versions shown when a customer switches the
+// shop language. Empty fields fall back to the Spanish text.
+const OTHER_LANGS = [
+  { locale: "ca-ES", label: "Català", example: "Exemple: Perfum càlid amb notes d'ambre..." },
+  { locale: "en-US", label: "English", example: "Example: Warm fragrance with amber notes..." },
+] as const
+
+type LocaleCode = (typeof OTHER_LANGS)[number]["locale"]
+type TranslationDraft = Record<LocaleCode, { title: string; description: string }>
+
+const emptyTranslations = (): TranslationDraft => ({
+  "ca-ES": { title: "", description: "" },
+  "en-US": { title: "", description: "" },
+})
+
 const emptyDraft: Draft = {
   title: "",
   brand: "",
@@ -203,10 +218,80 @@ const ProductForm = ({
   const [error, setError] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const fileInput = useRef<HTMLInputElement>(null)
+  const [translations, setTranslations] = useState<TranslationDraft>(
+    emptyTranslations
+  )
+  const [translationIds, setTranslationIds] = useState<
+    Partial<Record<LocaleCode, string>>
+  >({})
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  useEffect(() => {
+    if (!product) {
+      return
+    }
+    sdk.admin.translation
+      .list({ reference_id: product.id, reference: "product" })
+      .then(({ translations: existing }) => {
+        const next = emptyTranslations()
+        const ids: Partial<Record<LocaleCode, string>> = {}
+        for (const t of existing) {
+          const locale = t.locale_code as LocaleCode
+          if (!next[locale]) {
+            continue
+          }
+          const fields = (t.translations ?? {}) as Record<string, string>
+          next[locale] = {
+            title: fields.title ?? "",
+            description: fields.description ?? "",
+          }
+          ids[locale] = t.id
+        }
+        setTranslations(next)
+        setTranslationIds(ids)
+      })
+      .catch(() => undefined)
+  }, [product])
+
+  const setTranslation = (
+    locale: LocaleCode,
+    key: "title" | "description",
+    value: string
+  ) =>
+    setTranslations((all) => ({
+      ...all,
+      [locale]: { ...all[locale], [key]: value },
+    }))
+
+  const saveTranslations = async (productId: string) => {
+    const create: HttpTypes.AdminBatchTranslations["create"] = []
+    const update: HttpTypes.AdminBatchTranslations["update"] = []
+    for (const { locale } of OTHER_LANGS) {
+      const title = translations[locale].title.trim()
+      const description = translations[locale].description.trim()
+      const fields = {
+        ...(title ? { title } : {}),
+        ...(description ? { description } : {}),
+      }
+      const id = translationIds[locale]
+      if (id) {
+        update.push({ id, translations: fields })
+      } else if (title || description) {
+        create.push({
+          reference: "product",
+          reference_id: productId,
+          locale_code: locale,
+          translations: fields,
+        })
+      }
+    }
+    if (create.length || update.length) {
+      await sdk.admin.translation.batch({ create, update })
+    }
+  }
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((d) => ({ ...d, [key]: value }))
@@ -251,7 +336,7 @@ const ProductForm = ({
           sdk.admin.shippingProfile.list({ limit: 1 }),
           sdk.admin.salesChannel.list({ limit: 1 }),
         ])
-        await sdk.admin.product.create({
+        const { product: created } = await sdk.admin.product.create({
           ...common,
           handle: await uniqueHandle(
             [draft.brand, draft.title, draft.size].filter(Boolean).join(" ")
@@ -268,10 +353,12 @@ const ProductForm = ({
             },
           ],
         })
+        await saveTranslations(created.id)
         return
       }
 
       await sdk.admin.product.update(product.id, common)
+      await saveTranslations(product.id)
       const variant = product.variants?.[0]
       if (variant) {
         const existing = variant.prices?.find((p) => p.currency_code === CURRENCY)
@@ -450,7 +537,44 @@ const ProductForm = ({
 
       <section className="nv-step">
         <h2>
-          <span className="nv-num">5</span> ¿Se ve en la tienda online?
+          <span className="nv-num">5</span> Otros idiomas{" "}
+          <span className="nv-optional">(opcional)</span>
+        </h2>
+        <p className="nv-help">
+          La tienda online también se ve en catalán e inglés. Si dejas esto en
+          blanco, se mostrará el texto en español.
+        </p>
+        {OTHER_LANGS.map(({ locale, label, example }) => (
+          <div key={locale} className="nv-lang">
+            <h3>{label}</h3>
+            <label className="nv-label" htmlFor={`nv-title-${locale}`}>
+              Nombre en {label}
+            </label>
+            <input
+              id={`nv-title-${locale}`}
+              className="nv-input"
+              value={translations[locale].title}
+              onChange={(e) => setTranslation(locale, "title", e.target.value)}
+            />
+            <label className="nv-label" htmlFor={`nv-description-${locale}`}>
+              Descripción en {label}
+            </label>
+            <textarea
+              id={`nv-description-${locale}`}
+              className="nv-input nv-textarea nv-textarea-small"
+              placeholder={example}
+              value={translations[locale].description}
+              onChange={(e) =>
+                setTranslation(locale, "description", e.target.value)
+              }
+            />
+          </div>
+        ))}
+      </section>
+
+      <section className="nv-step">
+        <h2>
+          <span className="nv-num">6</span> ¿Se ve en la tienda online?
         </h2>
         <div className="nv-choice">
           <button
