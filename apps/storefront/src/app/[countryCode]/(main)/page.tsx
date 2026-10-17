@@ -6,9 +6,9 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "Perfumería Núria Vilalta | Perfumes y cosmética online",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "Perfumes, cosmética y cuidado personal con el consejo de una perfumería familiar con más de 30 años de historia.",
 }
 
 export default async function Home(props: {

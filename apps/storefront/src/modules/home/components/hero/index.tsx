@@ -1,31 +1,40 @@
-import { Github } from "@medusajs/icons";
-import { Button, Heading } from "@modules/common/components/ui";
+import Image from "next/image"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
+    <section className="w-full border-b border-nv-sand bg-nv-ivory">
+      <div className="content-container flex flex-col items-center text-center gap-8 py-20 small:py-28">
+        <Image src="/nv-logo.svg" alt="" width={120} height={120} priority />
+        <div className="flex flex-col gap-4 max-w-2xl">
+          <p className="uppercase tracking-[0.3em] text-sm text-nv-gold">
+            Perfumería y cosmética desde hace más de 30 años
+          </p>
+          <h1 className="font-serif text-5xl small:text-6xl leading-tight text-nv-ink">
+            Perfumería Núria Vilalta
+          </h1>
+          <p className="text-lg text-ui-fg-subtle">
+            Las fragancias y los cuidados que te recomendaríamos en la tienda,
+            ahora con envío a casa y el mismo consejo de siempre.
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-4">
+          <LocalizedClientLink
+            href="/store"
+            className="bg-nv-ink text-white px-8 py-4 text-base hover:bg-black"
           >
-            Ecommerce Starter Template
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
+            Ver productos
+          </LocalizedClientLink>
+          <LocalizedClientLink
+            href="/store?sortBy=created_at"
+            className="border border-nv-ink text-nv-ink px-8 py-4 text-base hover:bg-nv-sand"
           >
-            Powered by Medusa and Next.js
-          </Heading>
-        </span>
-        <a href="https://github.com/medusajs/dtc-starter" target="_blank">
-          <Button variant="secondary">
-            View on GitHub <Github />
-          </Button>
-        </a>
+            Novedades
+          </LocalizedClientLink>
+        </div>
       </div>
-    </div>
-  );
-};
+    </section>
+  )
+}
 
-export default Hero;
+export default Hero

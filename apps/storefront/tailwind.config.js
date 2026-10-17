@@ -20,6 +20,14 @@ module.exports = {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {
+        // Brand palette taken from the black-and-white monogram, with a warm
+        // ivory background and a muted gold accent common in niche perfumery.
+        nv: {
+          ink: "#111111",
+          ivory: "#FAF8F4",
+          sand: "#EFEAE1",
+          gold: "#B08D57",
+        },
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",
@@ -58,7 +66,9 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
+        serif: ["var(--font-serif)", "Georgia", "serif"],
         sans: [
+          "var(--font-sans)",
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",

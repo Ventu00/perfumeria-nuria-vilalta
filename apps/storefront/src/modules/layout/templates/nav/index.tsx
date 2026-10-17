@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Suspense } from "react"
 
 import { listLocales } from "@lib/data/locales"
@@ -18,7 +19,7 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-white border-ui-border-base">
+      <header className="relative h-16 mx-auto border-b duration-200 bg-nv-ivory border-nv-sand">
         <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
           <div className="flex-1 basis-0 h-full flex items-center">
             <div className="h-full">
@@ -29,10 +30,14 @@ export default async function Nav() {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="flex items-center gap-3 text-nv-ink"
               data-testid="nav-store-link"
+              aria-label="Perfumería Núria Vilalta, inicio"
             >
-              Medusa Store
+              <Image src="/nv-logo.svg" alt="" width={36} height={36} priority />
+              <span className="font-serif text-2xl tracking-wide hidden xsmall:inline">
+                Núria Vilalta
+              </span>
             </LocalizedClientLink>
           </div>
 
@@ -44,7 +49,7 @@ export default async function Nav() {
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Account
+                Mi cuenta
               </LocalizedClientLink>
             </div>
             <Suspense
@@ -54,7 +59,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Cart (0)
+                  Cesta (0)
                 </LocalizedClientLink>
               }
             >
