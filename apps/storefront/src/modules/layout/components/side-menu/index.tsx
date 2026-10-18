@@ -9,16 +9,18 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import { Text, clx } from "@modules/common/components/ui"
 import { Fragment } from "react"
 import CountrySelect from "../country-select"
-import LanguageSelect from "../language-select"
+import LanguageSwitch from "../language-switch"
 import { Locale } from "@lib/data/locales"
 
 
-const SideMenuItems = {
-  Home: "/",
-  Store: "/store",
-  Account: "/account",
-  Cart: "/cart",
-}
+// Labels are the Spanish keys of the storefront dictionary.
+const SideMenuItems = [
+  { label: "Inicio", href: "/", testId: "home" },
+  { label: "Tienda", href: "/store", testId: "store" },
+  { label: "Marcas", href: "/brands", testId: "brands" },
+  { label: "Mi cuenta", href: "/account", testId: "account" },
+  { label: "Cesta", href: "/cart", testId: "cart" },
+]
 
 type SideMenuProps = {
   regions: HttpTypes.StoreRegion[] | null
@@ -26,9 +28,8 @@ type SideMenuProps = {
   currentLocale: string | null
 }
 
-const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
+const SideMenu = ({ regions }: SideMenuProps) => {
   const countryToggleState = useToggleState()
-  const languageToggleState = useToggleState()
 
   return (
     <div className="h-full">
@@ -74,41 +75,23 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
+                      {SideMenuItems.map(({ label, href, testId }) => {
                         return (
-                          <li key={name}>
+                          <li key={href}>
                             <LocalizedClientLink
                               href={href}
-                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                              className="font-serif text-3xl leading-10 hover:text-ui-fg-disabled"
                               onClick={close}
-                              data-testid={`${name.toLowerCase()}-link`}
+                              data-testid={`${testId}-link`}
                             >
-                              {name}
+                              <T>{label}</T>
                             </LocalizedClientLink>
                           </li>
                         )
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
-                      {!!locales?.length && (
-                        <div
-                          className="flex justify-between"
-                          onMouseEnter={languageToggleState.open}
-                          onMouseLeave={languageToggleState.close}
-                        >
-                          <LanguageSelect
-                            toggleState={languageToggleState}
-                            locales={locales}
-                            currentLocale={currentLocale}
-                          />
-                          <ArrowRightMini
-                            className={clx(
-                              "transition-transform duration-150",
-                              languageToggleState.state ? "-rotate-90" : ""
-                            )}
-                          />
-                        </div>
-                      )}
+                      <LanguageSwitch className="text-base [&_a]:text-ui-fg-on-color [&_button]:text-ui-fg-on-color" />
                       <div
                         className="flex justify-between"
                         onMouseEnter={countryToggleState.open}
@@ -128,8 +111,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
-                        reserved.
+                        © {new Date().getFullYear()} Perfumería Núria Vilalta.
                       </Text>
                     </div>
                   </div>

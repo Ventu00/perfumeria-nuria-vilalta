@@ -7,6 +7,7 @@ import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import GiftWrap from "@modules/cart/components/gift-wrap"
+import Samples from "@modules/cart/components/samples"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
 
@@ -33,6 +34,7 @@ const Summary = ({ cart }: SummaryProps) => {
         <T>Resumen</T>
       </Heading>
       <GiftWrap cart={cart} />
+      <Samples cart={cart} />
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals totals={cart} />

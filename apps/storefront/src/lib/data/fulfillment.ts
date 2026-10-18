@@ -9,10 +9,6 @@ export const listCartShippingMethods = async (cartId: string) => {
     ...(await getAuthHeaders()),
   }
 
-  const next = {
-    ...(await getCacheOptions("fulfillment")),
-  }
-
   return sdk.client
     .fetch<HttpTypes.StoreShippingOptionListResponse>(
       `/store/shipping-options`,
@@ -22,8 +18,9 @@ export const listCartShippingMethods = async (cartId: string) => {
           cart_id: cartId,
         },
         headers,
-        next,
-        cache: "force-cache",
+        // Prices depend on the cart total (free shipping from 35 €), so they
+        // are never served from cache.
+        cache: "no-store",
       }
     )
     .then(({ shipping_options }) => shipping_options)

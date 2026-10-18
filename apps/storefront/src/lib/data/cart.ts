@@ -114,6 +114,18 @@ export async function updateCart(data: HttpTypes.StoreUpdateCart) {
     .catch(medusaError)
 }
 
+// Merges into the cart metadata instead of replacing it, so the gift wrap and
+// sample choices, saved from separate components, never overwrite each other.
+export async function updateCartMetadata(patch: Record<string, unknown>) {
+  const cart = await retrieveCart(undefined, "id,metadata")
+
+  if (!cart) {
+    throw new Error("No existing cart found, please create one before updating")
+  }
+
+  return updateCart({ metadata: { ...(cart.metadata ?? {}), ...patch } })
+}
+
 export async function addToCart({
   variantId,
   quantity,

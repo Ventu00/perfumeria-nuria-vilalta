@@ -81,19 +81,19 @@ const Register = ({ setCurrentView }: Props) => {
           data-testid="register-error"
         />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
+          <T>Al crear tu cuenta aceptas nuestra</T>{" "}
           <LocalizedClientLink
-            href="/content/privacy-policy"
+            href="/info/privacidad"
             className="underline"
           >
             <T>Política de privacidad</T>
           </LocalizedClientLink>{" "}
-          and{" "}
+          <T>y el</T>{" "}
           <LocalizedClientLink
-            href="/content/terms-of-use"
+            href="/info/aviso-legal"
             className="underline"
           >
-            <T>Condiciones de uso</T>
+            <T>Aviso legal</T>
           </LocalizedClientLink>
           .
         </span>
@@ -102,7 +102,7 @@ const Register = ({ setCurrentView }: Props) => {
         </SubmitButton>
       </form>
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
-        Already a member?{" "}
+        <T>¿Ya tienes cuenta?</T>{" "}
         <button
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
           className="underline"

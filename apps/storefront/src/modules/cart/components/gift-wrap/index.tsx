@@ -1,9 +1,9 @@
 "use client"
 
-import { updateCart } from "@lib/data/cart"
+import { updateCartMetadata } from "@lib/data/cart"
 import { T, useT } from "@lib/i18n/provider"
 import { HttpTypes } from "@medusajs/types"
-import { useState, useTransition } from "react"
+import { useRef, useState } from "react"
 
 const MAX_MESSAGE = 200
 
@@ -16,18 +16,19 @@ const GiftWrap = ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const [message, setMessage] = useState(
     typeof metadata.gift_message === "string" ? metadata.gift_message : ""
   )
-  const [isPending, startTransition] = useTransition()
+  const queue = useRef(Promise.resolve())
 
-  const save = (nextWrap: boolean, nextMessage: string) =>
-    startTransition(async () => {
-      await updateCart({
-        metadata: {
-          ...metadata,
+  // Saves run one after another so a quick change never overtakes the last one.
+  const save = (nextWrap: boolean, nextMessage: string) => {
+    queue.current = queue.current
+      .then(() =>
+        updateCartMetadata({
           gift_wrap: nextWrap,
           gift_message: nextWrap ? nextMessage.trim() : "",
-        },
-      })
-    })
+        })
+      )
+      .then(() => undefined, () => undefined)
+  }
 
   return (
     <div className="flex flex-col gap-3 border border-nv-sand bg-white p-4">
@@ -36,7 +37,6 @@ const GiftWrap = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           type="checkbox"
           className="mt-1 h-4 w-4 accent-black"
           checked={wrap}
-          disabled={isPending}
           onChange={(e) => {
             setWrap(e.target.checked)
             save(e.target.checked, message)

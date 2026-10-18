@@ -9,3 +9,32 @@ export const SHOP = {
   instagramUrl: "https://www.instagram.com/perfumerianuriavilalta",
   facebookUrl: "https://www.facebook.com/perfumerianuriavilalta/",
 }
+
+// Company data required by the legal pages (LSSI-CE, RGPD, consumer law) that
+// is not known yet. Fill these in here and every legal page updates. Values in
+// square brackets are shown highlighted on the site as pending.
+export const LEGAL = {
+  // Titular: name of the company (S.L.) or, for a sole trader, the full name.
+  companyName: "[Razón social pendiente]",
+  nif: "[NIF pendiente]",
+  // Registro Mercantil data (tomo, folio, hoja). For a sole trader write
+  // "No aplica (empresario individual)".
+  registry: "[Datos del Registro Mercantil pendientes]",
+  email: "[Email de contacto pendiente]",
+  // Whether the business is adhered to the consumer arbitration system
+  // (Junta Arbitral de Consum de Catalunya), e.g. "No estamos adheridos".
+  consumerArbitration: "[Adhesión al arbitraje de consumo pendiente de confirmar]",
+}
+
+export const isPending = (value: string) => value.startsWith("[")
+
+// Online shipping options, in euros, used by the help and legal pages.
+export const SHIPPING = {
+  standardPrice: 3.95,
+  standardFreeFrom: 35,
+  expressPrice: 6.95,
+  rubiSameDayPrice: 2.95,
+  rubiSameDayFreeFrom: 35,
+  rubiSameDayCutoff: "13:00",
+  returnDays: 14,
+}

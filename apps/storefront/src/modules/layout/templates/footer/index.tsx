@@ -5,12 +5,15 @@ import { Text, clx } from "@modules/common/components/ui";
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import { SHOP } from "@lib/shop-info";
+import { getLang } from "@lib/i18n/server";
+import { INFO_LABELS } from "@modules/info/content";
 
 export default async function Footer() {
   const { collections } = await listCollections({
     fields: "*products",
   });
   const productCategories = await listCategories();
+  const infoLabels = INFO_LABELS[await getLang()];
 
   return (
     <footer className="border-t border-nv-sand bg-nv-sand/40 w-full">
@@ -149,10 +152,38 @@ export default async function Footer() {
             <div className="flex flex-col gap-y-2">
               <span className="txt-small-plus txt-ui-fg-base"><T>Ayuda</T></span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li><T>Envolvemos tus regalos gratis</T></li>
-                <li><T>Envíos y devoluciones</T></li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/envios-y-devoluciones">
+                    <T>Envíos y devoluciones</T>
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/preguntas-frecuentes">
+                    {infoLabels.faq}
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/condiciones-de-venta">
+                    {infoLabels.terms}
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/aviso-legal">
+                    {infoLabels.legal}
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/privacidad">
+                    <T>Política de privacidad</T>
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink className="hover:text-ui-fg-base" href="/info/cookies">
+                    {infoLabels.cookies}
+                  </LocalizedClientLink>
+                </li>
+                <li className="mt-2"><T>Envolvemos tus regalos gratis</T></li>
                 <li><T>Pago seguro: tarjeta, Bizum, Apple Pay, Google Pay y Amazon Pay</T></li>
-                <li><T>Aviso legal y privacidad</T></li>
               </ul>
             </div>
           </div>

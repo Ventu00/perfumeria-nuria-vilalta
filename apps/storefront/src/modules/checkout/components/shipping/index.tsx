@@ -1,5 +1,6 @@
 "use client"
-import { T } from "@lib/i18n/provider"
+import { T, useT } from "@lib/i18n/provider"
+import { isLocalDelivery, offersLocalDelivery } from "@lib/shipping"
 import { Radio, RadioGroup } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
 import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
@@ -51,6 +52,7 @@ const Shipping: React.FC<ShippingProps> = ({
   cart,
   availableShippingMethods,
 }) => {
+  const t = useT()
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingPrices, setIsLoadingPrices] = useState(true)
 
@@ -71,7 +73,9 @@ const Shipping: React.FC<ShippingProps> = ({
   const isOpen = searchParams.get("step") === "delivery"
 
   const _shippingMethods = availableShippingMethods?.filter(
-    (sm) => (sm as unknown as { service_zone?: { fulfillment_set?: { type?: string; location?: { address: HttpTypes.StoreCartAddress } } } }).service_zone?.fulfillment_set?.type !== "pickup"
+    (sm) =>
+      (sm as unknown as { service_zone?: { fulfillment_set?: { type?: string; location?: { address: HttpTypes.StoreCartAddress } } } }).service_zone?.fulfillment_set?.type !== "pickup" &&
+      (!isLocalDelivery(sm) || offersLocalDelivery(cart.shipping_address?.postal_code))
   )
 
   const _pickupMethods = availableShippingMethods?.filter(
@@ -165,7 +169,7 @@ const Shipping: React.FC<ShippingProps> = ({
             }
           )}
         >
-          Delivery
+          <T>Entrega</T>
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && (
             <CheckCircleSolid />
           )}
@@ -193,7 +197,8 @@ const Shipping: React.FC<ShippingProps> = ({
                 <T>Método de envío</T>
               </span>
               <span className="mb-4 text-ui-fg-muted txt-medium">
-                <T>¿Cómo quieres recibir tu pedido?</T>
+                <T>¿Cómo quieres recibir tu pedido?</T>{" "}
+                <T>El envío estándar es gratis a partir de 35 €.</T>
               </span>
             </div>
             <div data-testid="delivery-options-container">
@@ -231,7 +236,7 @@ const Shipping: React.FC<ShippingProps> = ({
                         </span>
                       </div>
                       <span className="justify-self-end text-ui-fg-base">
-                        -
+                        <T>Gratis</T>
                       </span>
                     </Radio>
                   </RadioGroup>
@@ -270,12 +275,21 @@ const Shipping: React.FC<ShippingProps> = ({
                           <MedusaRadio
                             checked={option.id === shippingMethodId}
                           />
-                          <span className="text-base-regular">
-                            {option.name}
+                          <span className="flex flex-col">
+                            <span className="text-base-regular">
+                              {t(option.name)}
+                            </span>
+                            {option.type?.description && (
+                              <span className="text-small-regular text-ui-fg-muted">
+                                {t(option.type.description)}
+                              </span>
+                            )}
                           </span>
                         </div>
                         <span className="justify-self-end text-ui-fg-base">
-                          {option.price_type === "flat" ? (
+                          {option.price_type === "flat" && option.amount === 0 ? (
+                            t("Gratis")
+                          ) : option.price_type === "flat" ? (
                             convertToLocale({
                               amount: option.amount!,
                               currency_code: cart?.currency_code,
@@ -342,7 +356,7 @@ const Shipping: React.FC<ShippingProps> = ({
                             />
                             <div className="flex flex-col">
                               <span className="text-base-regular">
-                                {option.name}
+                                {t(option.name)}
                               </span>
                               <span className="text-base-regular text-ui-fg-muted">
                                 {formatAddress(
@@ -353,10 +367,12 @@ const Shipping: React.FC<ShippingProps> = ({
                             </div>
                           </div>
                           <span className="justify-self-end text-ui-fg-base">
-                            {convertToLocale({
-                              amount: option.amount!,
-                              currency_code: cart?.currency_code,
-                            })}
+                            {option.amount === 0
+                              ? t("Gratis")
+                              : convertToLocale({
+                                  amount: option.amount!,
+                                  currency_code: cart?.currency_code,
+                                })}
                           </span>
                         </Radio>
                       )
@@ -393,7 +409,7 @@ const Shipping: React.FC<ShippingProps> = ({
                   <T>Método</T>
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {cart.shipping_methods!.at(-1)!.name}{" "}
+                  {t(cart.shipping_methods!.at(-1)!.name)}{" "}
                   {convertToLocale({
                     amount: cart.shipping_methods!.at(-1)!.amount!,
                     currency_code: cart?.currency_code,

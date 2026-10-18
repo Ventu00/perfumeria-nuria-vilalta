@@ -1,6 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@modules/common/components/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { brandSlug } from "@lib/util/brand-slug"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -16,6 +17,15 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             className="text-medium text-ui-fg-muted hover:text-ui-fg-subtle"
           >
             {product.collection.title}
+          </LocalizedClientLink>
+        )}
+        {product.subtitle && (
+          <LocalizedClientLink
+            href={`/brands/${brandSlug(product.subtitle)}`}
+            className="text-small-regular uppercase tracking-[0.2em] text-nv-gold hover:underline underline-offset-4"
+            data-testid="product-brand"
+          >
+            {product.subtitle}
           </LocalizedClientLink>
         )}
         <Heading
