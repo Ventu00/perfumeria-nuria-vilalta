@@ -20,7 +20,7 @@ const es = (c: InfoContext): InfoContent => ({
                 rows: [
                   [
                     "Envío estándar a toda España",
-                    `${c.standard} · gratis en pedidos desde ${c.standardFreeFrom}`,
+                    c.standard,
                     "2-4 días laborables",
                   ],
                   ["Envío urgente", c.express, "24-48 horas laborables"],
@@ -31,7 +31,7 @@ const es = (c: InfoContext): InfoContent => ({
                   ],
                   [
                     "Entrega en el día en Rubí",
-                    `${c.rubi} · gratis en pedidos desde ${c.rubiFreeFrom}`,
+                    c.rubi,
                     `El mismo día, en pedidos hechos antes de las ${c.cutoff} de lunes a sábado`,
                   ],
                 ],
@@ -108,13 +108,13 @@ const es = (c: InfoContext): InfoContent => ({
           heading: "Envíos",
           blocks: [
             { h3: "¿Cuánto cuesta el envío?" },
-            `El envío estándar cuesta ${c.standard} y es gratis en pedidos desde ${c.standardFreeFrom}. El urgente cuesta ${c.express}. Recoger el pedido en la tienda de Rubí es gratis.`,
+            `El envío estándar cuesta ${c.standard}. El urgente cuesta ${c.express}. Recoger el pedido en la tienda de Rubí es gratis.`,
             { h3: "¿Cuánto tarda en llegar?" },
             "El envío estándar tarda entre 2 y 4 días laborables y el urgente, entre 24 y 48 horas laborables.",
             { h3: "Vivo en Rubí, ¿me lo podéis traer hoy?" },
-            `Sí. Si haces el pedido antes de las ${c.cutoff}, de lunes a sábado, te lo entregamos el mismo día por ${c.rubi}, o gratis a partir de ${c.rubiFreeFrom}.`,
+            `Sí. Si haces el pedido antes de las ${c.cutoff}, de lunes a sábado, te lo entregamos el mismo día por ${c.rubi}.`,
             { h3: "¿Enviáis fuera de España?" },
-            "Nuestra tienda online está pensada para envíos dentro de España. Si vives en otro país, o en Canarias, Ceuta o Melilla, consúltanos antes de comprar.",
+            "Enviamos a toda España, incluidas Baleares y Canarias. Para Canarias, Ceuta y Melilla el paquete pasa por aduana y puede tardar unos días más. Si vives en otro país, consúltanos antes de comprar.",
             "Tienes todos los detalles en [[envios-y-devoluciones|Envíos y devoluciones]].",
           ],
         },
@@ -221,10 +221,10 @@ const es = (c: InfoContext): InfoContent => ({
           blocks: [
             {
               ul: [
-                `Envío estándar: ${c.standard}, gratis en pedidos desde ${c.standardFreeFrom}. Entrega en 2-4 días laborables.`,
+                `Envío estándar: ${c.standard}. Entrega en 2-4 días laborables.`,
                 `Envío urgente: ${c.express}. Entrega en 24-48 horas laborables.`,
                 "Recogida en la tienda de Rubí: gratis.",
-                `Entrega en el día en Rubí: ${c.rubi}, gratis en pedidos desde ${c.rubiFreeFrom}, en pedidos hechos antes de las ${c.cutoff} de lunes a sábado.`,
+                `Entrega en el día en Rubí: ${c.rubi}, en pedidos hechos antes de las ${c.cutoff} de lunes a sábado.`,
               ],
             },
             "Los plazos son orientativos. En cualquier caso, entregaremos el pedido en un máximo de 30 días naturales; si no pudiéramos hacerlo, te avisaremos y podrás cancelarlo con el reembolso íntegro de lo pagado.",

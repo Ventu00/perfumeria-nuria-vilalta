@@ -31,10 +31,8 @@ export const isPending = (value: string) => value.startsWith("[")
 // Online shipping options, in euros, used by the help and legal pages.
 export const SHIPPING = {
   standardPrice: 3.95,
-  standardFreeFrom: 35,
   expressPrice: 6.95,
   rubiSameDayPrice: 2.95,
-  rubiSameDayFreeFrom: 35,
   rubiSameDayCutoff: "13:00",
   returnDays: 14,
 }

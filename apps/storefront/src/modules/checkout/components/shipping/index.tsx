@@ -197,8 +197,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 <T>Método de envío</T>
               </span>
               <span className="mb-4 text-ui-fg-muted txt-medium">
-                <T>¿Cómo quieres recibir tu pedido?</T>{" "}
-                <T>El envío estándar es gratis a partir de 35 €.</T>
+                <T>¿Cómo quieres recibir tu pedido?</T>
               </span>
             </div>
             <div data-testid="delivery-options-container">

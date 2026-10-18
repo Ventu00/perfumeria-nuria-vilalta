@@ -52,10 +52,8 @@ export type InfoContext = {
   // A mailto link, or the pending placeholder.
   email: string
   standard: string
-  standardFreeFrom: string
   express: string
   rubi: string
-  rubiFreeFrom: string
   cutoff: string
   returnDays: number
 }

@@ -32,10 +32,8 @@ const buildContext = (lang: Lang): InfoContext => {
       ? LEGAL.email
       : `[[mailto:${LEGAL.email}|${LEGAL.email}]]`,
     standard: eur(SHIPPING.standardPrice),
-    standardFreeFrom: eur(SHIPPING.standardFreeFrom),
     express: eur(SHIPPING.expressPrice),
     rubi: eur(SHIPPING.rubiSameDayPrice),
-    rubiFreeFrom: eur(SHIPPING.rubiSameDayFreeFrom),
     cutoff: SHIPPING.rubiSameDayCutoff,
     returnDays: SHIPPING.returnDays,
   }

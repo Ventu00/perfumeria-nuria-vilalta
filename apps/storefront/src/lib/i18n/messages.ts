@@ -240,7 +240,6 @@ export const messages: Record<string, { ca: string; en: string }> = {
   // Delivery options (names and descriptions come from the shop's shipping setup)
   "Entrega": { ca: "Lliurament", en: "Delivery" },
   "Gratis": { ca: "Gratis", en: "Free" },
-  "El envío estándar es gratis a partir de 35 €.": { ca: "L'enviament estàndard és gratis a partir de 35 €.", en: "Standard shipping is free on orders over €35." },
   "Envío estándar": { ca: "Enviament estàndard", en: "Standard shipping" },
   "Envío urgente": { ca: "Enviament urgent", en: "Express shipping" },
   "Entrega hoy en Rubí": { ca: "Lliurament avui a Rubí", en: "Same-day delivery in Rubí" },

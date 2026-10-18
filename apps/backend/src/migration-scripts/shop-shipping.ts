@@ -10,8 +10,7 @@ import {
 } from "@medusajs/medusa/core-flows"
 
 // Shipping as the shop runs it: standard and express delivery, free pickup in
-// the Rubí shop and same-day delivery in Rubí. Free from 35 € where noted.
-export const FREE_SHIPPING_FROM = 35
+// the Rubí shop and same-day delivery in Rubí. No free-shipping threshold.
 export const LOCAL_DELIVERY_NAME = "Entrega hoy en Rubí"
 export const PICKUP_NAME = "Recoger en la tienda de Rubí"
 
@@ -29,16 +28,7 @@ const ALWAYS = [
   { attribute: "is_return", value: "false", operator: "eq" as const },
 ]
 
-const priceWithFreeShipping = (amount: number) => [
-  { currency_code: "eur", amount },
-  {
-    currency_code: "eur",
-    amount: 0,
-    rules: [
-      { attribute: "item_total", operator: "gte" as const, value: FREE_SHIPPING_FROM },
-    ],
-  },
-]
+const eur = (amount: number) => [{ currency_code: "eur", amount }]
 
 export default async function shopShipping({
   container,
@@ -81,8 +71,10 @@ export default async function shopShipping({
 
   // Standard and express from the initial seed get their real prices.
   const updates = [
-    { option: byName("Envío estándar"), prices: priceWithFreeShipping(3.95) },
-    { option: byName("Envío urgente"), prices: [{ currency_code: "eur", amount: 6.95 }] },
+    { option: byName("Envío estándar"), prices: eur(3.95) },
+    { option: byName("Envío urgente"), prices: eur(6.95) },
+    // Re-running the script also resets the same-day price.
+    { option: byName(LOCAL_DELIVERY_NAME), prices: eur(2.95) },
   ].filter((u) => u.option)
   for (const { option, prices } of updates) {
     // Replaces the seed's placeholder prices (10 USD/EUR) entirely.
@@ -111,7 +103,7 @@ export default async function shopShipping({
             description: "Pedidos antes de las 13:00, de lunes a sábado.",
             code: "local-same-day",
           },
-          prices: priceWithFreeShipping(2.95),
+          prices: eur(2.95),
           rules: ALWAYS,
         },
       ],
@@ -152,7 +144,7 @@ export default async function shopShipping({
             description: "Listo en 2 horas dentro del horario de la tienda.",
             code: "pickup",
           },
-          prices: [{ currency_code: "eur", amount: 0 }],
+          prices: eur(0),
           rules: ALWAYS,
         },
       ],

@@ -20,7 +20,7 @@ const ca = (c: InfoContext): InfoContent => ({
                 rows: [
                   [
                     "Enviament estàndard a tot Espanya",
-                    `${c.standard} · gratis en comandes a partir de ${c.standardFreeFrom}`,
+                    c.standard,
                     "2-4 dies laborables",
                   ],
                   ["Enviament urgent", c.express, "24-48 hores laborables"],
@@ -31,7 +31,7 @@ const ca = (c: InfoContext): InfoContent => ({
                   ],
                   [
                     "Lliurament el mateix dia a Rubí",
-                    `${c.rubi} · gratis en comandes a partir de ${c.rubiFreeFrom}`,
+                    c.rubi,
                     `El mateix dia, en comandes fetes abans de les ${c.cutoff}, de dilluns a dissabte`,
                   ],
                 ],
@@ -108,13 +108,13 @@ const ca = (c: InfoContext): InfoContent => ({
           heading: "Enviaments",
           blocks: [
             { h3: "Quant costa l'enviament?" },
-            `L'enviament estàndard costa ${c.standard} i és gratis en comandes a partir de ${c.standardFreeFrom}. L'urgent costa ${c.express}. Recollir la comanda a la botiga de Rubí és gratis.`,
+            `L'enviament estàndard costa ${c.standard}. L'urgent costa ${c.express}. Recollir la comanda a la botiga de Rubí és gratis.`,
             { h3: "Quant triga a arribar?" },
             "L'enviament estàndard triga entre 2 i 4 dies laborables, i l'urgent, entre 24 i 48 hores laborables.",
             { h3: "Visc a Rubí: me la podeu portar avui?" },
-            `Sí. Si fas la comanda abans de les ${c.cutoff}, de dilluns a dissabte, te la portem el mateix dia per ${c.rubi}, o gratis a partir de ${c.rubiFreeFrom}.`,
+            `Sí. Si fas la comanda abans de les ${c.cutoff}, de dilluns a dissabte, te la portem el mateix dia per ${c.rubi}.`,
             { h3: "Envieu fora d'Espanya?" },
-            "La nostra botiga en línia està pensada per a enviaments dins d'Espanya. Si vius en un altre país, o a les Canàries, Ceuta o Melilla, consulta'ns abans de comprar.",
+            "Enviem a tot Espanya, incloses les Balears i les Canàries. A les Canàries, Ceuta i Melilla el paquet passa per duana i pot trigar uns dies més. Si vius en un altre país, consulta'ns abans de comprar.",
             "Trobaràs tots els detalls a [[envios-y-devoluciones|Enviaments i devolucions]].",
           ],
         },
@@ -221,10 +221,10 @@ const ca = (c: InfoContext): InfoContent => ({
           blocks: [
             {
               ul: [
-                `Enviament estàndard: ${c.standard}, gratis en comandes a partir de ${c.standardFreeFrom}. Lliurament en 2-4 dies laborables.`,
+                `Enviament estàndard: ${c.standard}. Lliurament en 2-4 dies laborables.`,
                 `Enviament urgent: ${c.express}. Lliurament en 24-48 hores laborables.`,
                 "Recollida a la botiga de Rubí: gratis.",
-                `Lliurament el mateix dia a Rubí: ${c.rubi}, gratis en comandes a partir de ${c.rubiFreeFrom}, per a comandes fetes abans de les ${c.cutoff}, de dilluns a dissabte.`,
+                `Lliurament el mateix dia a Rubí: ${c.rubi}, per a comandes fetes abans de les ${c.cutoff}, de dilluns a dissabte.`,
               ],
             },
             "Els terminis són orientatius. En tot cas, lliurarem la comanda en un màxim de 30 dies naturals; si no ho poguéssim fer, t'avisaríem i la podries cancel·lar amb el reemborsament íntegre del que has pagat.",

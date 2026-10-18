@@ -20,7 +20,7 @@ const en = (c: InfoContext): InfoContent => ({
                 rows: [
                   [
                     "Standard delivery within Spain",
-                    `${c.standard} · free on orders of ${c.standardFreeFrom} or more`,
+                    c.standard,
                     "2-4 working days",
                   ],
                   ["Express delivery", c.express, "24-48 working hours"],
@@ -31,7 +31,7 @@ const en = (c: InfoContext): InfoContent => ({
                   ],
                   [
                     "Same-day delivery in Rubí",
-                    `${c.rubi} · free on orders of ${c.rubiFreeFrom} or more`,
+                    c.rubi,
                     `Same day for orders placed before ${c.cutoff}, Monday to Saturday`,
                   ],
                 ],
@@ -108,13 +108,13 @@ const en = (c: InfoContext): InfoContent => ({
           heading: "Shipping",
           blocks: [
             { h3: "How much is shipping?" },
-            `Standard delivery costs ${c.standard} and is free on orders of ${c.standardFreeFrom} or more. Express delivery costs ${c.express}. Collecting your order from our Rubí shop is free.`,
+            `Standard delivery costs ${c.standard}. Express delivery costs ${c.express}. Collecting your order from our Rubí shop is free.`,
             { h3: "How long does delivery take?" },
             "Standard delivery takes 2-4 working days and express delivery 24-48 working hours.",
             { h3: "I live in Rubí. Can you deliver today?" },
-            `Yes. Order before ${c.cutoff}, Monday to Saturday, and we'll deliver the same day for ${c.rubi}, or free on orders of ${c.rubiFreeFrom} or more.`,
+            `Yes. Order before ${c.cutoff}, Monday to Saturday, and we'll deliver the same day for ${c.rubi}.`,
             { h3: "Do you ship outside Spain?" },
-            "Our online shop is set up for deliveries within Spain. If you live in another country, or in the Canary Islands, Ceuta or Melilla, please contact us before ordering.",
+            "We ship to the whole of Spain, including the Balearic and Canary Islands. Parcels to the Canary Islands, Ceuta and Melilla go through customs and may take a few extra days. If you live in another country, please contact us before ordering.",
             "Find all the details on our [[envios-y-devoluciones|shipping & returns]] page.",
           ],
         },
@@ -221,10 +221,10 @@ const en = (c: InfoContext): InfoContent => ({
           blocks: [
             {
               ul: [
-                `Standard delivery: ${c.standard}, free on orders of ${c.standardFreeFrom} or more. Delivered in 2-4 working days.`,
+                `Standard delivery: ${c.standard}. Delivered in 2-4 working days.`,
                 `Express delivery: ${c.express}. Delivered in 24-48 working hours.`,
                 "Collection from our Rubí shop: free.",
-                `Same-day delivery in Rubí: ${c.rubi}, free on orders of ${c.rubiFreeFrom} or more, for orders placed before ${c.cutoff}, Monday to Saturday.`,
+                `Same-day delivery in Rubí: ${c.rubi}, for orders placed before ${c.cutoff}, Monday to Saturday.`,
               ],
             },
             "Delivery times are estimates. In any case we will deliver your order within 30 calendar days at the latest; if we can't, we'll let you know and you can cancel it for a full refund.",

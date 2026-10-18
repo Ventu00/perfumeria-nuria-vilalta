@@ -18,7 +18,7 @@ export const listCartShippingMethods = async (cartId: string) => {
           cart_id: cartId,
         },
         headers,
-        // Prices depend on the cart total (free shipping from 35 €), so they
+        // Prices depend on the cart total (price rules), so they
         // are never served from cache.
         cache: "no-store",
       }
