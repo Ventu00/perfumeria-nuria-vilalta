@@ -142,6 +142,37 @@ Cuando tengáis cuenta de Stripe a nombre del negocio:
 
 ---
 
+## 7. Activar los emails de pedido
+
+Con esto, el cliente recibe un correo al comprar, cuando su pedido está listo para recoger y cuando sale enviado, y la tienda recibe un aviso de cada pedido nuevo. Mientras no se active, la tienda funciona igual pero no manda correos.
+
+La forma gratuita más sencilla es usar una cuenta de Gmail de la tienda (hasta 500 correos al día):
+
+1. En esa cuenta de Google, activa la verificación en dos pasos y crea una **contraseña de aplicación** en <https://myaccount.google.com/apppasswords>. Te da 16 letras.
+2. En la máquina de Oracle, añade al final de `~/perfumeria/deploy/oracle/.env`:
+
+   ```env
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=465
+   SMTP_USER=correo.de.la.tienda@gmail.com
+   SMTP_PASS=las16letrassinespacios
+   EMAIL_FROM="Perfumería Núria Vilalta <correo.de.la.tienda@gmail.com>"
+   SHOP_ORDERS_EMAIL=donde.quereis.los.avisos@gmail.com
+   ```
+
+   Si la tienda se instaló antes de este paso, añade también `STOREFRONT_URL=<dirección de la tienda>`.
+
+3. Ejecuta `cd ~/perfumeria/deploy/oracle && sudo docker compose up -d`.
+
+Cuando tengáis dominio propio, podéis cambiar Gmail por Brevo o Resend (también gratis) poniendo sus datos SMTP en las mismas líneas.
+
+**En el panel**, los correos al cliente salen solos:
+
+- **Recogida en tienda**: al pulsar **Preparar pedido** (*Create fulfillment*), el cliente recibe "Tu pedido ya está listo para recoger".
+- **Envíos**: al pulsar **Marcar como enviado** (*Mark as shipped*) y escribir el número de seguimiento, el cliente recibe "Tu pedido va de camino" con ese número.
+
+---
+
 ## Si algo falla
 
 - **Ver qué pasa en el servidor**: `cd ~/perfumeria/deploy/oracle && sudo docker compose logs -f medusa`.

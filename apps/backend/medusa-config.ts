@@ -69,6 +69,28 @@ const fileModule = process.env.S3_BUCKET
     ]
   : localFileModule
 
+// Order emails go out through SMTP when it is configured (see DEPLOY.md).
+// Without it they are only written to the server log, so nothing breaks.
+const emailProvider = process.env.SMTP_HOST
+  ? {
+      resolve: "./src/modules/email",
+      id: "smtp",
+      options: {
+        channels: ["email"],
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+        from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+        storefrontUrl: process.env.STOREFRONT_URL,
+      },
+    }
+  : {
+      resolve: "@medusajs/medusa/notification-local",
+      id: "local",
+      options: { channels: ["email"] },
+    }
+
 // With Redis available (production), events, workflows, locks and caching are
 // shared between the server and the worker instead of living in memory.
 const redisModules = REDIS_URL
@@ -130,6 +152,10 @@ module.exports = defineConfig({
       options: {
         providers: stripeProvider,
       },
+    },
+    {
+      resolve: "@medusajs/medusa/notification",
+      options: { providers: [emailProvider] },
     },
     ...fileModule,
     ...redisModules,
