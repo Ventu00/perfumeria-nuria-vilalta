@@ -3,11 +3,17 @@ import { getT } from "@lib/i18n/server"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { Metadata } from "next"
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ countryCode: string }>
+}): Promise<Metadata> {
+  const { countryCode } = await props.params
   const t = await getT()
   return {
-    title: t("Marcas"),
-    description: t("Todas las marcas que tenemos en la tienda."),
+    title: t("Marcas de perfumería y cosmética"),
+    description: t(
+      "Todas las marcas de perfumería y cosmética que tenemos en Perfumería Núria Vilalta, en Rubí (Barcelona)."
+    ),
+    alternates: { canonical: `/${countryCode}/brands` },
   }
 }
 

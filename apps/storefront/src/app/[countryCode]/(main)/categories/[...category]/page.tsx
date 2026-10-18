@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { getCategoryByHandle } from "@lib/data/categories"
+import { getT } from "@lib/i18n/server"
 import CategoryTemplate from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
@@ -17,20 +18,35 @@ type Props = {
   >
 }
 
+// Next.js passes the URL segments still percent-encoded, so a handle with an
+// accent ("cosmética-facial") would not match the category.
+const decodeHandle = (segments: string[]) => {
+  try {
+    return segments.map(decodeURIComponent)
+  } catch {
+    return segments
+  }
+}
+
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   try {
-    const productCategory = await getCategoryByHandle(params.category)
+    const productCategory = await getCategoryByHandle(
+      decodeHandle(params.category)
+    )
+    const t = await getT()
 
     const title = productCategory.name
 
-    const description = productCategory.description ?? title
+    const description =
+      productCategory.description ||
+      `${title} ${t("en Perfumería Núria Vilalta, tu perfumería en Rubí (Barcelona). Envíos a toda España.")}`
 
     return {
       title,
       description,
       alternates: {
-        canonical: `${params.category.join("/")}`,
+        canonical: `/${params.countryCode}/categories/${params.category.join("/")}`,
       },
     }
   } catch {
@@ -44,7 +60,9 @@ export default async function CategoryPage(props: Props) {
   const { sortBy, page } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
 
-  const productCategory = await getCategoryByHandle(params.category)
+  const productCategory = await getCategoryByHandle(
+    decodeHandle(params.category)
+  )
 
   if (!productCategory) {
     notFound()

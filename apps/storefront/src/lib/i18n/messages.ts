@@ -272,4 +272,18 @@ export const messages: Record<string, { ca: string; en: string }> = {
   "y el": { ca: "i", en: "and the" },
   "Aviso legal": { ca: "Avís legal", en: "Legal notice" },
   "Preguntas frecuentes": { ca: "Preguntes freqüents", en: "FAQ" },
+  // Page titles and descriptions for search engines
+  "Perfumería y estética en Rubí": { ca: "Perfumeria i estètica a Rubí", en: "Perfumery and beauty salon in Rubí" },
+  "Perfumes, cosmética y cuidado personal con el consejo de una perfumería y centro de estética familiar de Rubí (Barcelona) con más de 30 años de historia. Envíos a toda España.": { ca: "Perfums, cosmètica i cura personal amb el consell d'una perfumeria i centre d'estètica familiar de Rubí (Barcelona) amb més de 30 anys d'història. Enviaments a tot Espanya.", en: "Perfume, cosmetics and personal care with advice from a family perfumery and beauty salon in Rubí (Barcelona) with over 30 years of history. Shipping across Spain." },
+  "Tienda online de perfumes y cosmética": { ca: "Botiga en línia de perfums i cosmètica", en: "Online perfume and cosmetics shop" },
+  "Compra perfumes, cosmética y cuidado personal en la tienda online de Perfumería Núria Vilalta, tu perfumería en Rubí (Barcelona). Envíos a toda España.": { ca: "Compra perfums, cosmètica i cura personal a la botiga en línia de Perfumeria Núria Vilalta, la teva perfumeria a Rubí (Barcelona). Enviaments a tot Espanya.", en: "Buy perfume, cosmetics and personal care from the online shop of Perfumería Núria Vilalta, your perfumery in Rubí (Barcelona). Shipping across Spain." },
+  "Marcas de perfumería y cosmética": { ca: "Marques de perfumeria i cosmètica", en: "Perfume and cosmetics brands" },
+  "Todas las marcas de perfumería y cosmética que tenemos en Perfumería Núria Vilalta, en Rubí (Barcelona).": { ca: "Totes les marques de perfumeria i cosmètica que tenim a Perfumeria Núria Vilalta, a Rubí (Barcelona).", en: "All the perfume and cosmetics brands we stock at Perfumería Núria Vilalta, in Rubí (Barcelona)." },
+  "perfumes y cosmética": { ca: "perfums i cosmètica", en: "perfume and cosmetics" },
+  "Compra productos de": { ca: "Compra productes de", en: "Buy products by" },
+  "en Perfumería Núria Vilalta, tu perfumería en Rubí (Barcelona). Envíos a toda España.": { ca: "a Perfumeria Núria Vilalta, la teva perfumeria a Rubí (Barcelona). Enviaments a tot Espanya.", en: "at Perfumería Núria Vilalta, your perfumery in Rubí (Barcelona). Shipping across Spain." },
+  "de": { ca: "de", en: "by" },
+  "Cómpralo en": { ca: "Compra'l a", en: "Buy it at" },
+  "tu perfumería en Rubí (Barcelona).": { ca: "la teva perfumeria a Rubí (Barcelona).", en: "your perfumery in Rubí (Barcelona)." },
+  "Perfumería y cosmética con más de 30 años de consejo personal en Rubí (Barcelona). Envíos a toda España.": { ca: "Perfumeria i cosmètica amb més de 30 anys de consell personal a Rubí (Barcelona). Enviaments a tot Espanya.", en: "Perfume and cosmetics with over 30 years of personal advice in Rubí (Barcelona). Shipping across Spain." },
 }

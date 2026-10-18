@@ -3,11 +3,21 @@ export const SHOP = {
   name: "Perfumería Núria Vilalta",
   street: "Passeig de Francesc Macià, 15",
   city: "08191 Rubí (Barcelona)",
+  // The same address split up, for search engine structured data.
+  postalCode: "08191",
+  locality: "Rubí",
+  region: "Barcelona",
   phone: "93 697 27 06",
   phoneHref: "tel:+34936972706",
   mapsUrl: "https://maps.app.goo.gl/6HE5RcH2jcGMHKAC6",
   instagramUrl: "https://www.instagram.com/perfumerianuriavilalta",
   facebookUrl: "https://www.facebook.com/perfumerianuriavilalta/",
+  // Monday to Saturday, split shift; closed on Sundays. Keep in sync with the
+  // footer and the info pages, which write the hours out as text.
+  openingHours: [
+    { opens: "09:30", closes: "13:30" },
+    { opens: "17:00", closes: "20:30" },
+  ],
 }
 
 // Company data required by the legal pages (LSSI-CE, RGPD, consumer law) that

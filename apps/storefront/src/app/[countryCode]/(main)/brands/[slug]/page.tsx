@@ -17,15 +17,17 @@ const findBrand = async (slug: string) => {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { slug } = await props.params
+  const { countryCode, slug } = await props.params
   const found = await findBrand(slug)
   if (!found) {
     notFound()
   }
   const t = await getT()
+  const name = found.brand.name
   return {
-    title: found.brand.name,
-    description: `${t("Ver productos de")} ${found.brand.name}`,
+    title: `${name}: ${t("perfumes y cosmética")}`,
+    description: `${t("Compra productos de")} ${name} ${t("en Perfumería Núria Vilalta, tu perfumería en Rubí (Barcelona). Envíos a toda España.")}`,
+    alternates: { canonical: `/${countryCode}/brands/${slug}` },
   }
 }
 

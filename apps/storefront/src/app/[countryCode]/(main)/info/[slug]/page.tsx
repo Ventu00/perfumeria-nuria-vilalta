@@ -9,7 +9,7 @@ type Props = {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { slug } = await props.params
+  const { countryCode, slug } = await props.params
 
   if (!isInfoSlug(slug)) {
     notFound()
@@ -20,6 +20,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     title: page.title,
     description: page.description,
+    alternates: { canonical: `/${countryCode}/info/${slug}` },
   }
 }
 

@@ -20,8 +20,9 @@ export async function generateMetadata(): Promise<Metadata> {
       default: t("Perfumería Núria Vilalta"),
       template: "%s | Perfumería Núria Vilalta",
     },
-    description:
-      "Perfumería y cosmética con más de 30 años de consejo personal. Envíos a toda España.",
+    description: t(
+      "Perfumería y cosmética con más de 30 años de consejo personal en Rubí (Barcelona). Envíos a toda España."
+    ),
     icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
   }
 }
